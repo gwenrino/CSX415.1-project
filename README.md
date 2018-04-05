@@ -1,4 +1,4 @@
-# project
+# Comp Sci 415.1 project
 
 This repository is your repository for containing assets for your final project. It should include all supporting documentation, any files, code, reports and (possibly) the data to run your project.  
 
