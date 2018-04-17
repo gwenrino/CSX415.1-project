@@ -5,8 +5,7 @@ date: "April 11, 2018"
 output: html_document
 ---
 
-## Naive Model
-### April 11, 2018
+## Naive Model, 4/11/18
 
 My baseline model predicts the number of cases of dengue per week to be equal to the average number of cases for that season of the year.
 
@@ -15,7 +14,7 @@ Comparing these predictions to the actual number of cases yields a Mean Absolute
 In order to meet the required model performance level established in the FPS, a future model must reduce the MAE by 21.5.
 
 Code is here:
-```{r, eval=FALSE}
+```{r eval=FALSE}
 # Find mean total_cases for each season
 dengue.sj %>% group_by(season) %>% 
   summarize(mean = mean(total_cases, na.rm = TRUE))
@@ -30,7 +29,7 @@ dengue.sj.naive <- dengue.sj %>%
 # Error = actual number of cases - predicted number of cases
 error <- dengue.sj.naive$total_cases - dengue.sj.naive$predictions
 
-# Function that returns Mean Absolute Error
+# Function that returns Mean Absolute Error (MAKE THIS A PACKAGE)
 mae <- function(error)
 {
   mean(abs(error))
@@ -39,3 +38,34 @@ mae <- function(error)
 # Find MAE for naive model
 mae(error)
 ```
+
+## Simple Linear Regression, 4/16/18
+
+This simple linear model regresses the total number of dengue cases on the variable `station_avg_temp_c` to make its predictions.
+
+Comparing these predictions to the actual number of cases yields a Mean Absolute Error (MAE) of 27.8, which is actually a bit worse than the naive model!
+
+Code is here:
+```{r eval=FALSE}
+# Eliminate NAs from x variable
+dengue.clean <- dengue.sj[complete.cases(dengue.sj[ , 20]),]
+
+# Fit model
+lm_1 <- lm(total_cases ~ station_avg_temp_c, data = dengue.clean)
+
+# Function that returns Mean Absolute Error
+mae <- function(error)
+{
+  mean(abs(error))
+}
+
+# Predictions from mod_1
+predictions_lm_1 <- predict(lm_1, newdata = dengue.clean)
+
+# Error = actual number of cases - predicted number of cases
+error <- dengue.clean$total_cases - predictions_lm_1
+
+# Find MAE
+mae(error)
+```
+
