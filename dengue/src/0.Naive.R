@@ -14,11 +14,5 @@ dengue.sj.naive <- dengue.sj %>%
 # Error = actual number of cases - predicted number of cases
 error <- dengue.sj.naive$total_cases - dengue.sj.naive$predictions
 
-# Function that returns Mean Absolute Error
-mae <- function(error)
-{
-  mean(abs(error))
-}
-
 # Find MAE for naive model
 mae(error)
