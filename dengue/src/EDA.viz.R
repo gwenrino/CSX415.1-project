@@ -1,8 +1,11 @@
+### Exploratory Data Analysis: histogram of response variable
+
+ggplot(dengue.sj) +
+  geom_histogram(aes(x=total_cases), bins = 50)
+
 ### Exploratory Data Analysis: bivariate graphs
 
-## All predictors are continuous variables, so look at scatterplots
-
-# These variables appear to have a positive relationship with total_cases
+# These variables may have a positive linear relationship with total_cases
 
 ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_air_temp_k, y = total_cases))
@@ -66,7 +69,7 @@ ggplot(dengue.sj) +
 ggplot(dengue.sj) + 
   geom_point(aes(x = station_precip_mm, y = total_cases))
 
-## Take a look at boxplot of season vs. total_cases
+# Take a look at boxplot of season (only categorical variable) vs. total_cases
 
 ggplot(dengue.sj) + 
   geom_boxplot(aes(x = season, y = total_cases))
