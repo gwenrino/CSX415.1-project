@@ -1,7 +1,6 @@
 # Response variable summary stats
 summary(dengue.sj$total_cases)
 
-
 ## Examine p-values from Pearson correlations for variables that 
 ## may have linear relationship to total_cases (per EDA viz)
 

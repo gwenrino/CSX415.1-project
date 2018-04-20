@@ -5,7 +5,8 @@ ggplot(dengue.sj) +
 
 ### Exploratory Data Analysis: bivariate graphs
 
-# These variables may have a positive linear relationship with total_cases
+# These plots suggest these variables may have a 
+# positive linear relationship with total_cases
 
 ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_air_temp_k, y = total_cases))
@@ -69,7 +70,7 @@ ggplot(dengue.sj) +
 ggplot(dengue.sj) + 
   geom_point(aes(x = station_precip_mm, y = total_cases))
 
-# Take a look at boxplot of season (only categorical variable) vs. total_cases
+# Take a look at boxplot of season (the only categorical variable) vs. total_cases
 
 ggplot(dengue.sj) + 
   geom_boxplot(aes(x = season, y = total_cases))
