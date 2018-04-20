@@ -49,7 +49,7 @@ ggplot(dengue.sj) +
 ggplot(dengue.sj) + 
   geom_point(aes(x = ndvi_sw, y = total_cases))
 
-# No apparent linear relationship with these variables
+# No apparent linear relationship between total_cases and these variables
 
 ggplot(dengue.sj) + 
   geom_point(aes(x = precipitation_amt_mm, y = total_cases))
