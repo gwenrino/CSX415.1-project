@@ -1,0 +1,14 @@
+---
+title: "Tree Model Performance"
+author: "Gwen Rino"
+date: "4/20/2018"
+output: html_document
+---
+
+This decision tree model uses all the variables except week_start_date, which is the unique identifier, and year.
+
+The first node is weekofyear, which is similar in meaning to season of the year. This makes sense as a key predictor. The next several nodes all concern different aspects of weather. I wish I had a SME to help me understand this better!
+  
+Comparing this model's predictions to the actual number of cases yields a Mean Absolute Error (MAE) of 27.3, substantially worse than the linear model.
+  
+In order to meet the required model performance level established in the FPS, a future model must reduce the MAE by 23.3.
