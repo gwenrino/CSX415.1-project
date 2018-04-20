@@ -1,0 +1,33 @@
+---
+title: "Dengue Project - Assets"
+author: "Gwen Rino"
+date: "4/20/2018"
+output: html_document
+---
+
+## INPUTS
+
+**DATA**
+
+**As downloaded from [www.drivendata.org](www.drivendata.org):**
+
+Test set features  
+~CSX415.1-project/dengue/data/dengue_features_test.csv
+
+Training set features  
+~CSX415.1-project/dengue/data/dengue_features_train.csv
+
+Training set labels  
+~CSX415.1-project/dengue/data/dengue_labels_train.csv
+
+**As munged for usage in project:**
+
+Training set with labels and season variable  
+~CSX415.1-project/dengue/cache/dengue.data.RData
+
+Training set with labels and season variable, filtered for San Juan data only  
+~CSX415.1-project/dengue/cache/dengue.sj.RData
+
+## OUTPUTS
+
+
