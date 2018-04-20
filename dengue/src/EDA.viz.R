@@ -1,3 +1,6 @@
+library('ProjectTemplate')
+load.project()
+
 ### Exploratory Data Analysis: histogram of response variable
 
 ggplot(dengue.sj) +

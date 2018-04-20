@@ -1,3 +1,6 @@
+library('ProjectTemplate')
+load.project()
+
 ## Tree model using all features except week_start_date
 
 # Create dataset with selected features

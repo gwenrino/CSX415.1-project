@@ -1,3 +1,6 @@
+library('ProjectTemplate')
+load.project()
+
 ## Naive model = mean total_cases by season
 
 # Find mean total_cases for each season

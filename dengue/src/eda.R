@@ -1,3 +1,6 @@
+library('ProjectTemplate')
+load.project()
+
 # Response variable summary stats
 summary(dengue.sj$total_cases)
 
