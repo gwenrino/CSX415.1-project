@@ -3,55 +3,70 @@ load.project()
 
 ### Exploratory Data Analysis: histogram of response variable
 
-ggplot(dengue.sj) +
+total_cases.hist <- ggplot(dengue.sj) +
   geom_histogram(aes(x=total_cases), bins = 50)
+ggsave(file.path('graphs/EDAviz', 'total_cases.hist.pdf'))
 
 ### Exploratory Data Analysis: bivariate graphs
 
 # These plots suggest these variables may have a 
 # positive linear relationship with total_cases
 
-ggplot(dengue.sj) + 
+air_temp_k.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_air_temp_k, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'air_temp_k.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+avg_temp_k.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_avg_temp_k, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'avg_temp_k.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+dew_point_temp_k.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_dew_point_temp_k, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'dew_point_temp_k.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+max_air_temp_k.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_max_air_temp_k, y = total_cases), position = "jitter")
+ggsave(file.path('graphs/EDAviz', 'max_air_temp_k.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+min_air_temp_k.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_min_air_temp_k, y = total_cases), position = "jitter")
+ggsave(file.path('graphs/EDAviz', 'min_air_temp_k.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+rel_humidity.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_relative_humidity_percent, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'rel_humidity.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+spec_humidity.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = reanalysis_specific_humidity_g_per_kg, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'spec_humidity.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+avg_temp_c.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = station_avg_temp_c, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'avg_temp_c.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+max_temp_c.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = station_max_temp_c, y = total_cases), position = "jitter")
+ggsave(file.path('graphs/EDAviz', 'max_temp_c.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+min_temp_c.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = station_min_temp_c, y = total_cases), position = "jitter")
+ggsave(file.path('graphs/EDAviz', 'min_temp_c.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+veg_ne.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = ndvi_ne, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'veg_ne.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+veg_nw.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = ndvi_nw, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'veg_nw.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+veg_se.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = ndvi_se, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'veg_se.scatter.pdf'))
 
-ggplot(dengue.sj) + 
+veg_sw.scatter <- ggplot(dengue.sj) + 
   geom_point(aes(x = ndvi_sw, y = total_cases))
+ggsave(file.path('graphs/EDAviz', 'veg_sw.scatter.pdf'))
 
 # No apparent linear relationship between total_cases and these variables
 
@@ -77,3 +92,19 @@ ggplot(dengue.sj) +
 
 ggplot(dengue.sj) + 
   geom_boxplot(aes(x = season, y = total_cases))
+
+# Is there any suggestion that total_cases are increasing year to year?
+
+ggplot(dengue.sj) +
+  geom_col(aes(x=year, y=total_cases))
+
+# What if season is considered?
+
+dengue.sj$year.season <- paste(dengue.sj$year,dengue.sj$season)
+
+big.pic.bar <- dengue.sj %>% group_by(year.season) %>% 
+  summarize(cases = sum(total_cases)) %>%
+  ggplot(aes(x=year.season, y=cases)) +
+  geom_col()
+ggsave(file.path('graphs/EDAviz', 'big.pic.bar.pdf'))
+
