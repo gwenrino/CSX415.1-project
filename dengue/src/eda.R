@@ -24,4 +24,3 @@ cor.test(dengue.sj$ndvi_nw, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$ndvi_ne, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$ndvi_se, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$ndvi_sw, dengue.sj$total_cases, method="pearson")
-
