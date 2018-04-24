@@ -125,10 +125,10 @@ $(document).ready(function () {
 </div>
 
 
-<p>This decision tree model uses all the variables except week_start_date, which is the unique identifier, and year.</p>
-<p>The first node is weekofyear, which is similar in meaning to season of the year. This makes sense as a key predictor. The next several nodes all concern different aspects of weather. I wish I had a SME to help me understand this better!</p>
-<p>Comparing this model’s predictions to the actual number of cases yields a Mean Absolute Error (MAE) of 27.3, substantially worse than the linear model.</p>
-<p>In order to meet the required model performance level established in the FPS, a future model must reduce the MAE by 23.3.</p>
+<p>This decision tree model uses all the variables except week_start_date, which is the unique identifier, and year. It includes the engineered feature year.season.</p>
+<p>The first several nodes are all year.season. This makes sense as a key predictor since it accounts both for the seasonal fluctuations of the disease and also for “bad” and “not so bad” years.</p>
+<p>Comparing this model’s predictions to the actual number of cases yields a Mean Absolute Error (MAE) of 11.5.</p>
+<p>In order to meet the required model performance level established in the FPS, a future model must reduce the MAE by 7.5.</p>
 
 
 

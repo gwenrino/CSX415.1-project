@@ -126,7 +126,7 @@ $(document).ready(function () {
 </div>
 
 
-<p>This linear model uses the features identified as having significant p-values in Pearson correlation tests against the target variable total_cases. The features used in the model are:</p>
+<p>The first linear model uses the features identified as having significant p-values in Pearson correlation tests against the target variable total_cases. The features used in the model are:</p>
 <ul>
 <li>ndvi_nw <strong>(significant p-value)</strong><br />
 </li>
@@ -138,7 +138,7 @@ $(document).ready(function () {
 </li>
 <li>reanalysis_max_air_temp_k <strong>(significant p-value)</strong><br />
 </li>
-<li>reanalysis_min_air_temp_k <strong>(significant p-value)</strong><br />
+<li>reanalysis_min_air_temp_k<br />
 </li>
 <li>reanalysis_relative_humidity_percent<br />
 </li>
@@ -148,10 +148,16 @@ $(document).ready(function () {
 </li>
 <li>station_max_temp_c<br />
 </li>
-<li>station_min_temp_c</li>
+<li>station_min_temp_c<br />
+</li>
+<li>weekofyear <strong>(significant p-value)</strong></li>
 </ul>
-<p>Applying this model to a test set, a comparison of the predicted to the actual number of cases yields a Mean Absolute Error (MAE) of 20.4.</p>
-<p>In order to meet the required model performance level established in the FPS, a future model must reduce the MAE by 16.4.</p>
+<p>Applying this model to a test set, a comparison of the predicted to the actual number of cases yields a Mean Absolute Error (MAE) of 22.2.</p>
+<p>In order to meet the required model performance level established in the FPS, a future model must reduce the MAE by 18.2.</p>
+<hr />
+<p>The second linear model uses the same features as above but adds the engineered feature year.season.</p>
+<p>Adding this feature greatly increases the predictive power of the model. Applying this model to a test set, a comparison of the predicted to the actual number of cases hields a Mean Absolute Error (MAE) of 12.1.</p>
+<p>In order to meet the required model performance level established in the FPS, a future model must reduce the MAE by 8.1.</p>
 
 
 
