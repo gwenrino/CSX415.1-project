@@ -108,3 +108,8 @@ big.pic.bar <- dengue.sj %>% group_by(year.season) %>%
   geom_col()
 ggsave(file.path('graphs/EDAviz', 'big.pic.bar.pdf'))
 
+# Weekofyear?
+
+ggplot(dengue.sj) +
+  geom_col(aes(x=weekofyear, y=total_cases))
+ggsave(file.path('graphs/EDAviz', 'weekofyear.bar.pdf'))

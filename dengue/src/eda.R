@@ -8,6 +8,7 @@ summary(dengue.sj$total_cases)
 ## may have linear relationship to total_cases (per EDA viz)
 
 # Significant p-values 
+cor.test(dengue.sj$weekofyear, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$reanalysis_air_temp_k, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$reanalysis_avg_temp_k, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$reanalysis_dew_point_temp_k, dengue.sj$total_cases, method="pearson")
@@ -19,8 +20,10 @@ cor.test(dengue.sj$station_avg_temp_c, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$station_max_temp_c, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$station_min_temp_c, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$ndvi_nw, dengue.sj$total_cases, method="pearson")
-
 # Not significant p-values
 cor.test(dengue.sj$ndvi_ne, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$ndvi_se, dengue.sj$total_cases, method="pearson")
 cor.test(dengue.sj$ndvi_sw, dengue.sj$total_cases, method="pearson")
+
+
+
