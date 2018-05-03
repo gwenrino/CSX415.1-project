@@ -19,5 +19,3 @@ So I think the next step is to get a clearer understanding of which weather-rela
 
 Another step is to learn more about **time series forecasting methods** to see if they are relevant to this situation.
 
-
-asldkfjasdfj
