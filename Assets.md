@@ -3,7 +3,7 @@ INPUTS
 
 **DATA**
 
-**Downloaded from [www.drivendata.org]:**  
+**Downloaded from [https://www.drivendata.org]:**  
 Test set features: ~CSX415.1-project/dengue/data/dengue\_features\_test.csv  
 Training set features: ~CSX415.1-project/dengue/data/dengue\_features\_train.csv  
 Training set labels: ~CSX415.1-project/dengue/data/dengue\_labels\_train.csv  
