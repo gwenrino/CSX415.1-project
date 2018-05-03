@@ -12,3 +12,7 @@ dengue.data <- dengue.data %>% mutate(season =
 
 # Filter out San Juan data
 dengue.sj <- filter(dengue.data, city == "sj")
+
+# Convert week_start_date to date object
+dengue.sj$week_start_date <- as.Date(dengue.sj$week_start_date, format = '%Y-%m-%d')
+
