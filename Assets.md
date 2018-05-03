@@ -3,15 +3,18 @@ INPUTS
 
 **DATA**
 
-**As downloaded from [www.drivendata.org](www.drivendata.org):**  
+**Downloaded from [www.drivendata.org]:**  
 Test set features: ~CSX415.1-project/dengue/data/dengue\_features\_test.csv  
 Training set features: ~CSX415.1-project/dengue/data/dengue\_features\_train.csv  
 Training set labels: ~CSX415.1-project/dengue/data/dengue\_labels\_train.csv  
 
-**As munged for usage in project:**  
-Training set with labels and season variable:  
+**Subset of download from [https://estadisticas.pr/inventario-de-estadisticas/puerto_rico_tourism_company]:**  
+Monthly non-resident hotel guests: ~CSX415.1-project/dengue/data/hotel.guests.csv
+
+**Munged for usage in project:**  
+Data set with labels and season variable:  
 ~CSX415.1-project/dengue/cache/dengue.data.RData  
-Training set with labels and season variable, filtered for San Juan data only:  
+Data set with labels and hotel guest data, filtered for San Juan only:  
 ~CSX415.1-project/dengue/cache/dengue.sj.RData  
 
 OUTPUTS
