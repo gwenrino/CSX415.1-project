@@ -14,6 +14,9 @@ dengue.data <- dengue.data %>%
 # Filter out San Juan data
 dengue.sj <- filter(dengue.data, city == "sj")
 
+# Remove city variable
+dengue.sj <- subset(dengue.sj, select = -city)
+
 # Convert week_start_date to date object
 dengue.sj$week_start_date <- as.Date(dengue.sj$week_start_date, format = '%Y-%m-%d')
 
