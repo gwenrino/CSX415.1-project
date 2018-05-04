@@ -2,7 +2,7 @@ library('ProjectTemplate')
 load.project()
 
 ## Tree model using all features except week_start_date and year
-## (including engineered feature year.seaon)
+## (including engineered feature year.season)
 
 # Create dataset with selected features
 dengue.small <- dengue.sj %>% select(-year, -week_start_date)
