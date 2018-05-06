@@ -2,7 +2,9 @@
 title: "Linear Model Performance"
 author: "Gwen Rino"
 date: "April 20, 2018"
-output: html_document
+output: 
+  md_document:
+    variant: markdown_github
 ---
 
 The first linear model uses the features identified as having significant p-values in Pearson correlation tests against the target variable total_cases. The features used in the model are:   

@@ -2,7 +2,9 @@
 title: "Tree Model Performance"
 author: "Gwen Rino"
 date: "4/20/2018"
-output: html_document
+output: 
+  md_document:
+    variant: markdown_github
 ---
 
 This decision tree model uses all the variables except week_start_date, which is the unique identifier, and year. It includes the engineered feature year.season.

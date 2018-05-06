@@ -2,7 +2,9 @@
 title: "Naive Model Performance"
 author: "Gwen Rino"
 date: "April 11, 2018"
-output: html_document
+output: 
+  md_document:
+    variant: markdown_github
 ---
 
 My baseline model predicts the number of cases of dengue per week to be equal to the average number of cases for that season of the year.
