@@ -33,3 +33,14 @@ dengue.sj$month_year <- as.yearmon(dengue.sj$month_year, "%b-%y")
 
 # Join new data using month_year yearmon object as key
 dengue.sj <- left_join(dengue.sj, hotel.guests, by = "month_year")
+
+# Reorder columns so target is last
+dengue.sj <- dengue.sj[ ,c(1:23,25,26,27,24)]
+
+## CREATE CLEAN, CENTERED, SCALED VERSIONS FOR REGRESSION MODELS
+
+prepParams.1 <- preProcess(dengue.sj[ ,1:26], method = c("medianImpute", "center", "scale"))
+dengue.med <- predict(prepParams.1, dengue.sj[ ,1:26])
+
+prepParams.2 <- preProcess(dengue.sj[ ,1:26], method = c("knnImpute", "center", "scale"))
+dengue.knn <- predict(prepParams.2, dengue.sj[ ,1:26])
