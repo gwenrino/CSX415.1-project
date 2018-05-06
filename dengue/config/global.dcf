@@ -8,7 +8,7 @@ munging: TRUE
 logging: FALSE
 logging_level: INFO
 load_libraries: TRUE
-libraries: reshape, plyr, dplyr, ggplot2, stringr, lubridate, tidyverse, broom, mae, rpart, partykit, zoo, caret, glmnet
+libraries: reshape, plyr, dplyr, ggplot2, stringr, lubridate, tidyverse, broom, mae, rpart, partykit, zoo, caret, glmnet, RANN
 as_factors: TRUE
 data_tables: FALSE
 attach_internal_libraries: FALSE
