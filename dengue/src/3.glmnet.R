@@ -1,33 +1,22 @@
 library('ProjectTemplate')
 load.project()
 
-# First tried setting the arguments up, then applying them in train()
-myPreprocess <- c("medianImpute", "center", "scale")
-myFolds <- createFolds(dengue.sj$total_cases, k = 10)
-myControl <- trainControl(
-  method = "cv", verboseIter = TRUE, index = myFolds)
+# With NAs imputed with median values
 
 glmnet_1 <- train(total_cases ~ .,
-                  data = dengue.sj,
-                  method = "glmnet",
-                  preProcess = myPreprocess,
-                  trControl = myControl)
-# Error = missing values in object
+                  data = dengue.med,
+                  method = "glmnet")
 
-# Tried breaking it down to the simplest, same error
-glmnet_1 <- train(total_cases ~ ., data = dengue.sj, method = "glmnet")
+print(glmnet_1)
 
-# Focused on preProcess argument, same error
-glmnet_1 <- train(total_cases ~ ., data = dengue.sj, 
-                  method = "glmnet",
-                  preProcess = "medianImpute")
+# With NAs imputed with knn values
 
-# Tried knn impute, same error
-glmnet_1 <- train(total_cases ~ ., data = dengue.sj, 
-                  method = "glmnet",
-                  preProcess = "knnImpute")
+glmnet_2 <- train(total_cases ~ .,
+                  data = dengue.knn,
+                  method = "glmnet")
 
-# Confused! This looks exactly like model from DataCamp.
-# preProcess is supposed to be an argument in train() in caret.
-# Possibility of preProcess() as function before train(), but
-# that seems to defeat the whole magical purpose of caret.
+print(glmnet_2)
+
+# Best values for both models were alpha = 0.1 and lambda = 0.5350029.
+# MAE for best glmnet_1 was 10.05.
+# MAE for best glmnet_2 was 9.71.
