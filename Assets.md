@@ -9,7 +9,7 @@ Training set features: ~CSX415.1-project/dengue/data/dengue\_features\_train.csv
 Training set labels: ~CSX415.1-project/dengue/data/dengue\_labels\_train.csv  
 
 **Subset of download from [https://estadisticas.pr/inventario-de-estadisticas/puerto_rico_tourism_company]:**  
-Monthly non-resident hotel guests: ~CSX415.1-project/dengue/data/hotel.guests.csv
+Monthly non-resident hotel guests: ~CSX415.1-project/dengue/data/hotel.guests.copy.csv
 
 **Munged for usage in project:**  
 Data set with labels and season variable:  
