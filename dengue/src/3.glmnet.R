@@ -2,7 +2,7 @@ library('ProjectTemplate')
 load.project()
 
 # With NAs imputed with median values
-
+set.seed(999)
 glmnet_1 <- train(total_cases ~ . -week_start_date,
                   data = dengue.med,
                   method = "glmnet")
@@ -10,7 +10,7 @@ glmnet_1 <- train(total_cases ~ . -week_start_date,
 print(glmnet_1)
 
 # With NAs imputed with knn values
-
+set.seed(777)
 glmnet_2 <- train(total_cases ~ . -week_start_date,
                   data = dengue.knn,
                   method = "glmnet")
@@ -18,5 +18,5 @@ glmnet_2 <- train(total_cases ~ . -week_start_date,
 print(glmnet_2)
 
 # Best values for both models were alpha = 0.1 and lambda = 0.5350029.
-# MAE for best glmnet_1 was 9.95.
-# MAE for best glmnet_2 was 9.55.
+# MAE for best glmnet_1 was 9.84.
+# MAE for best glmnet_2 was 9.74.
