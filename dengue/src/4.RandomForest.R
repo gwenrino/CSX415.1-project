@@ -1,33 +1,35 @@
 library('ProjectTemplate')
 load.project()
 
-# With NAs imputed with median values
+# DoParallel
+cl <- makeCluster(detectCores())
+registerDoParallel(cl)
 
+# Training control
+myControl <- trainControl(method = "cv", number = 5, allowParallel = TRUE, verboseIter = TRUE)
+
+## RF with NAs imputed with median values and default mtry and ntree values
+set.seed(777)
 rf_1 <- train(total_cases ~ . -week_start_date, 
               data = dengue.med, 
-              tuneLength = 2,
-              method = "ranger",
-              trControl = 
-                trainControl(method = "cv", number = 5, verboseIter = TRUE)
-              )
+              method = "rf",
+              trControl = myControl)
 
 print(rf_1)
 
-# Best model values are mtry = 253, splitrule = extratrees, min.node.size = 5.
-# The MAE for this model is 8.79
+# Best model value is mtry = 253, with MAE of 10.05
 
-# With NAs imputed with knn values
-
+## With NAs imputed with knn values
+set.seed(555)
 rf_2 <- train(total_cases ~ . -week_start_date,
               data = dengue.knn,
-              tuneLength = 2,
-              method = "ranger",
-              trControl = 
-                trainControl(method = "cv", number = 5, verboseIter = TRUE)
+              method = "rf",
+              trControl = myControl
               )
 
 print(rf_2)
 
-# Same best model values as above. MAE for this model is 8.71.
-# Continue tuning using knn preprocessing.
+# Best model value is mtry = 253, with MAE of 10.32
+
+stopCluster(cl)
 
