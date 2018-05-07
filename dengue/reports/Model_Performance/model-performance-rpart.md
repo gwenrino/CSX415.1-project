@@ -1,4 +1,4 @@
-This decision tree model uses all the variables except week\_start\_date, which is the unique identifier, and year. It includes the engineered feature year.season.
+This decision tree model uses all the variables except week\_start\_date, which is the unique identifier, and year. It includes the engineered feature year.season. The model is evaluated on a test set made up of 30% of the given data.
 
 The first several nodes are all year.season. This makes sense as a key predictor since it accounts both for the seasonal fluctuations of the disease and also for "bad" and "not so bad" years.
 
