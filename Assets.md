@@ -33,13 +33,17 @@ OUTPUTS
 **MODELS**  
 ~CSX415.1-project/dengue/src/0.Naive.R  
 ~CSX415.1-project/dengue/src/1.Linear.R  
-~CSX415.1-project/dengue/src/2.Tree.R
+~CSX415.1-project/dengue/src/2.Tree.R  
+~CSX415.1-project/dengue/src/3.glmnet.R  
+~CSX415.1-project/dengue/src/4.RandomForest.R  
 
 (more forthcoming)
 
 **MODEL PERFORMANCE EVALS**  
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-naive.Rmd  
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-linear.Rmd  
-~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-rpart.Rmd
+~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-rpart.Rmd  
+~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-glmnet.Rmd  
+~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-RandomForest.Rmd  
 
 (more forthcoming)
