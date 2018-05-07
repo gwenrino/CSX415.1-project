@@ -9,7 +9,7 @@ Training set features: ~CSX415.1-project/dengue/data/dengue\_features\_train.csv
 Training set labels: ~CSX415.1-project/dengue/data/dengue\_labels\_train.csv  
 
 **Subset of download from [https://estadisticas.pr/inventario-de-estadisticas/puerto_rico_tourism_company]:**  
-Monthly non-resident hotel guests: ~CSX415.1-project/dengue/data/hotel.guests.csv
+Monthly non-resident hotel guests: ~CSX415.1-project/dengue/data/hotel.guests.copy.csv
 
 **Munged for usage in project:**  
 Data set with labels and season variable:  
@@ -34,6 +34,7 @@ OUTPUTS
 ~CSX415.1-project/dengue/src/0.Naive.R  
 ~CSX415.1-project/dengue/src/1.Linear.R  
 ~CSX415.1-project/dengue/src/2.Tree.R
+~CSX415.1-project/dengue/src/3.glmnet.R
 
 (more forthcoming)
 
@@ -41,5 +42,6 @@ OUTPUTS
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-naive.Rmd  
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-linear.Rmd  
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-rpart.Rmd
+~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-glmnet.Rmd
 
 (more forthcoming)
