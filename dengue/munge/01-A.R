@@ -39,14 +39,12 @@ dengue.sj <- dengue.sj[ ,c(1:23,25,26,27,24)]
 
 ## CREATE CLEAN, CENTERED, SCALED VERSIONS FOR REGRESSION MODELS
 
+# With median imputation of missing values
 prepParams.1 <- preProcess(dengue.sj[ ,1:26], method = c("medianImpute", "center", "scale"))
+dengue.med <- predict(prepParams.1, dengue.sj[ ,1:26]) # Create preprocessed dataset
+dengue.med$total_cases <- dengue.sj$total_cases # Add target variable
 
-dengue.med <- predict(prepParams.1, dengue.sj[ ,1:26])
-
-dengue.med$total_cases <- dengue.sj$total_cases
-
+# With knn imputation of missing values
 prepParams.2 <- preProcess(dengue.sj[ ,1:26], method = c("knnImpute", "center", "scale"))
-
-dengue.knn <- predict(prepParams.2, dengue.sj[ ,1:26])
-
-dengue.knn$total_cases <- dengue.sj$total_cases
+dengue.knn <- predict(prepParams.2, dengue.sj[ ,1:26]) # Create preprocessed dataset
+dengue.knn$total_cases <- dengue.sj$total_cases # Add target variable
