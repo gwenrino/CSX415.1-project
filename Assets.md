@@ -17,6 +17,9 @@ Data set with labels and season variable:
 Data set with labels and hotel guest data, filtered for San Juan only:  
 ~CSX415.1-project/dengue/cache/dengue.sj.RData  
 
+**Data is also organized in the package `dengue.data` which can be found at:**
+~CSX415.1-project/dengue/pkgs/dengue.data/  
+
 OUTPUTS
 -------
 
@@ -36,7 +39,6 @@ OUTPUTS
 ~CSX415.1-project/dengue/src/2.Tree.R  
 ~CSX415.1-project/dengue/src/3.glmnet.R  
 ~CSX415.1-project/dengue/src/4.RandomForest.R  
-
 (more forthcoming)
 
 **MODEL PERFORMANCE EVALS**  
@@ -45,5 +47,7 @@ OUTPUTS
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-rpart.Rmd  
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-glmnet.Rmd  
 ~CSX415.1-project/dengue/reports/Model\_Performance/model-performance-RandomForest.Rmd  
-
 (more forthcoming)
+
+**Best models are also organized in the package `models` which can be found at:**
+~CSX415.1-project/dengue/pkgs/models/
