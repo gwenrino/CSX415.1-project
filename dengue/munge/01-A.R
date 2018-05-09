@@ -51,6 +51,11 @@ dengue.knn$total_cases <- dengue.sj$total_cases # Add target variable
 
 ## CREATE TIME SERIES VERSIONS
 
+# Without imputing missing values
+dengue.ts <- ts(dengue.sj,
+                freq = 365.25/7,
+                start = decimal_dat(ymd("1990-05-07")))
+
 # With median imputation of missing values
 dengue.med.ts <- ts(dengue.med, 
                     freq = 365.25/7,
