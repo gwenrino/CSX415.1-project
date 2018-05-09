@@ -1,5 +1,5 @@
 Package: mae
-Title: What the Package Does (one line, title case)
+Title: Mean Absolute Error
 Version: 0.0.0.9000
 Authors@R: person("Gwen", "Rino", email = "gwenrino@gmail.com", role = c("aut", "cre"))
 Description: Calculates MAE (mean absolute error).
