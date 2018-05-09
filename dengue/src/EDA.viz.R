@@ -113,3 +113,14 @@ ggsave(file.path('graphs/EDAviz', 'big.pic.bar.pdf'))
 ggplot(dengue.sj) +
   geom_col(aes(x=weekofyear, y=total_cases))
 ggsave(file.path('graphs/EDAviz', 'weekofyear.bar.pdf'))
+
+dengue.sj %>% group_by(weekofyear) %>% 
+  summarize(mean = mean(total_cases)) %>%
+  ggplot(aes(x=weekofyear, y=mean)) +
+  geom_col()
+ggsave(file.path('graphs/EDAviz', 'weekofyear.mean.bar.pdf'))
+
+### Time series plots
+
+plot(dengue.ts.target)
+ggsave(file.path('graphs/EDAviz', 'time.series.pdf'))
