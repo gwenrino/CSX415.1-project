@@ -48,3 +48,16 @@ dengue.med$total_cases <- dengue.sj$total_cases # Add target variable
 prepParams.2 <- preProcess(dengue.sj[ ,1:26], method = c("knnImpute", "center", "scale"))
 dengue.knn <- predict(prepParams.2, dengue.sj[ ,1:26]) # Create preprocessed dataset
 dengue.knn$total_cases <- dengue.sj$total_cases # Add target variable
+
+## CREATE TIME SERIES VERSIONS
+
+# With median imputation of missing values
+dengue.med.ts <- ts(dengue.med, 
+                    freq = 365.25/7,
+                    start = decimal_date(ymd("1990-05-07")))
+
+# With knn imputation of missing values
+dengue.knn.ts <- ts(dengue.knn,
+                    freq = 365.25/7,
+                    start = decimal_date(ymd("1990-05-07")))
+
