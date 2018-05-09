@@ -1,3 +1,13 @@
+**Wednesday 5/9**
+
+LEARNING ABOUT TIME SERIES
+- Finish DataCamp course Intro to Time Series Analysis  
+- Read Dynamic Regression Models (https://www.otexts.org/fpp/9/1)  
+- Unit 2 of this DataCamp course also looks good (https://www.datacamp.com/courses/forecasting-using-r)  
+
+
+**Tuesday 4/24**
+
 EDA visualizations show that the week of the year is highly correlated (though not linearly) with the number of cases. This correlation is finer than the correlation with season and should be a key feature in the best predictive model. However, although the week of the year captures information about the annual cycle of disease occurrence, some years are much worse than others, so I need more information than just week of year.
 
 If I include year.season as a feature in a linear or tree model, I get pretty good results (MAE = ~11), getting in range of my required model performance per my FPS. **I might be able to improve my MAE by engineering a feature year.weekofyear.** On the other hand, this doesn't really seem like a legitimate strategy, since year.weekofyear is essentially the identifier of an observation!
