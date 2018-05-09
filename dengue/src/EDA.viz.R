@@ -124,3 +124,6 @@ ggsave(file.path('graphs/EDAviz', 'weekofyear.mean.bar.pdf'))
 
 plot(dengue.ts.target)
 ggsave(file.path('graphs/EDAviz', 'time.series.pdf'))
+
+plot(dengue.ts.target.diff)
+ggsave(file.path('graphs/EDAviz', 'seasonal.diff.pdf'))

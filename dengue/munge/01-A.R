@@ -51,18 +51,35 @@ dengue.knn$total_cases <- dengue.sj$total_cases # Add target variable
 
 ## CREATE TIME SERIES VERSIONS
 
+# Target only
+dengue.ts.target <- ts(dengue.sj$total_cases,
+                       freq = 365.25/7,
+                       start = decimal_date(ymd("1990-05-07")))
+
+# Target with seasonal differencing
+dengue.ts.target.diff <- diff(dengue.ts.target, lag = 52)
+
 # Without imputing missing values
 dengue.ts <- ts(dengue.sj,
                 freq = 365.25/7,
                 start = decimal_dat(ymd("1990-05-07")))
+
+# No imputation, with seasonal differencing
+dengue.ts.diff <- diff(dengue.ts, lag = 52)
 
 # With median imputation of missing values
 dengue.med.ts <- ts(dengue.med, 
                     freq = 365.25/7,
                     start = decimal_date(ymd("1990-05-07")))
 
+# Median imputation and seasonal differencing
+dengue.med.ts.diff <- diff(dengue.med.ts, lag = 52)
+
 # With knn imputation of missing values
 dengue.knn.ts <- ts(dengue.knn,
                     freq = 365.25/7,
                     start = decimal_date(ymd("1990-05-07")))
+
+# knn imputation and seasonal differencing
+dengue.knn.ts.diff <- diff(dengue.knn.ts, lag = 52)
 
