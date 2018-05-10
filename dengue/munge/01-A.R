@@ -1,4 +1,8 @@
-# Add target labels to training dataset
+#######################################################################
+# Clean and prepare data
+#######################################################################
+
+# Add target labels
 dengue.data <- left_join(dengue.features.train, dengue.labels.train)
 
 # Add season variable
@@ -15,10 +19,10 @@ dengue.data <- dengue.data %>%
 dengue.sj <- filter(dengue.data, city == "sj")
 
 # Remove city variable
-dengue.sj <- subset(dengue.sj, select = -city)
+dengue <- subset(dengue.sj, select = -city)
 
 # Convert week_start_date to date object
-dengue.sj$week_start_date <- as.Date(dengue.sj$week_start_date, format = '%Y-%m-%d')
+dengue$week_start_date <- as.Date(dengue$week_start_date, format = '%Y-%m-%d')
 
 ## MUNGING TO ADD DATA FROM NEW SOURCE
 
@@ -26,43 +30,55 @@ dengue.sj$week_start_date <- as.Date(dengue.sj$week_start_date, format = '%Y-%m-
 hotel.guests.copy$month_year <- as.yearmon(hotel.guests.copy$month_year, "%b-%y")
 
 # Make new column month_year
-dengue.sj$month_year <- format(as.Date(dengue.sj$week_start_date), "%b-%y")
+dengue$month_year <- format(as.Date(dengue$week_start_date), "%b-%y")
 
 # Convert that to yearmon using zoo
-dengue.sj$month_year <- as.yearmon(dengue.sj$month_year, "%b-%y")
+dengue$month_year <- as.yearmon(dengue$month_year, "%b-%y")
 
 # Join new data using month_year yearmon object as key
-dengue.sj <- left_join(dengue.sj, hotel.guests.copy, by = "month_year")
+dengue <- left_join(dengue, hotel.guests.copy, by = "month_year")
 
 # Reorder columns so target is last
-dengue.sj <- dengue.sj[ ,c(1:23,25,26,27,24)]
+dengue <- dengue[ ,c(1:23,25,26,27,24)]
 
-## CREATE CLEAN, CENTERED, SCALED VERSIONS FOR REGRESSION MODELS
+## IMPUTATION OF MISSING VALUES
 
-# With median imputation of missing values
-prepParams.1 <- preProcess(dengue.sj[ ,1:26], method = c("medianImpute", "center", "scale"))
-dengue.med <- predict(prepParams.1, dengue.sj[ ,1:26]) # Create preprocessed dataset
-dengue.med$total_cases <- dengue.sj$total_cases # Add target variable
+# With median imputation
+prepParams.1 <- preProcess(dengue[ ,1:26], method = c("medianImpute"))
+dengue.med <- predict(prepParams.1, dengue[ ,1:26]) # Create preprocessed dataset
+dengue.med$total_cases <- dengue$total_cases # Add target variable
 
-# With knn imputation of missing values
-prepParams.2 <- preProcess(dengue.sj[ ,1:26], method = c("knnImpute", "center", "scale"))
-dengue.knn <- predict(prepParams.2, dengue.sj[ ,1:26]) # Create preprocessed dataset
-dengue.knn$total_cases <- dengue.sj$total_cases # Add target variable
+# With knn imputation
+prepParams.2 <- preProcess(dengue[ ,1:26], method = c("knnImpute"))
+dengue.knn <- predict(prepParams.2, dengue[ ,1:26]) # Create preprocessed dataset
+dengue.knn$total_cases <- dengue$total_cases # Add target variable
+
+## CENTERED AND SCALED FOR REGRESSION MODELS
+
+# Median imputation
+prepParams.3 <- preProcess(dengue.med[ ,1:26], method = c("center", "scale"))
+dengue.med.scaled <- predict(prepParams.3, dengue.med[ ,1:26])
+dengue.med.scaled$total_cases <- dengue.med$total_cases
+
+# knn imputation
+prepParams.4 <- preProcess(dengue.knn[ ,1:26], method = c("center", "scale"))
+dengue.knn.scaled <- predict(prepParams.4, dengue.knn[ ,1:26])
+dengue.knn.scaled$total_cases <- dengue.knn$total_cases
 
 ## CREATE TIME SERIES VERSIONS
 
 # Target only
-dengue.ts.target <- ts(dengue.sj$total_cases,
+dengue.ts.target <- ts(dengue$total_cases,
                        freq = 365.25/7,
                        start = decimal_date(ymd("1990-05-07")))
 
 # Target with seasonal differencing
 dengue.ts.target.diff <- diff(dengue.ts.target, lag = 52)
 
-# Without imputing missing values
-dengue.ts <- ts(dengue.sj,
+# Whole dataset as ts without imputing missing values
+dengue.ts <- ts(dengue,
                 freq = 365.25/7,
-                start = decimal_dat(ymd("1990-05-07")))
+                start = decimal_date(ymd("1990-05-07")))
 
 # No imputation, with seasonal differencing
 dengue.ts.diff <- diff(dengue.ts, lag = 52)
