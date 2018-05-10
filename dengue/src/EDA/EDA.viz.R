@@ -79,8 +79,9 @@ nonres_guests.scatter <- ggplot(dengue) +
   geom_point(aes(x = nonres_guests, y = total_cases))
 
 # Boxplot of season vs. total_cases
-ggplot(dengue.sj) + 
-  geom_boxplot(aes(x = season, y = total_cases))
+ggplot(dengue) + 
+  geom_boxplot(aes(x = season, y = total_cases)) + 
+  labs(title = "Dengue Cases by Season", x = "Season", y = "Distribution of Cases")
 ggsave(file.path('graphs/EDAviz', 'season.boxplot.pdf'))
 # Shows slightly higher mean and much higher top quartile number of cases 
 # in summer and fall than in winter and spring
