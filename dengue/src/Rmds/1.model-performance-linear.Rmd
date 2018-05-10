@@ -1,0 +1,29 @@
+---
+title: "Linear Model Performance"
+author: "Gwen Rino"
+date: "April 20, 2018"
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+The linear model uses the features identified as having significant p-values in Pearson correlation tests against the target variable total_cases. The features used in the model are:   
+  
+- ndvi_nw  
+- reanalysis_air_temp_k  
+- reanalysis_avg_temp_k     
+- reanalysis_dew_point_temp_k  
+- reanalysis_max_air_temp_k      
+- reanalysis_min_air_temp_k            
+- reanalysis_relative_humidity_percent    
+- reanalysis_specific_humidity_g_per_kg  
+- station_avg_temp_c  
+- station_max_temp_c   
+- station_min_temp_c  
+- weekofyear    
+  
+I imputed missing values two ways, first by median values and second by k nearest neighbor values. Applying these models to a test set, a comparison of the predicted to the actual number of cases yields a Mean Absolute Error (MAE) of 27.3 (median imputation model) and 26.2 (knn imputation model), both of which are actually worse than the Naive Model. It is noteworthy that by far the most influencial feature is weekofyear, which implies that a time series approach might be helpful.  
+
+
+
+

@@ -17,7 +17,7 @@ rf_1 <- train(total_cases ~ . -week_start_date,
 
 print(rf_1)
 
-# Best model value is mtry = 253, with MAE of 10.05
+# Best model has MAE of 10.06
 
 ## With NAs imputed with knn values
 set.seed(555)
@@ -29,7 +29,7 @@ rf_2 <- train(total_cases ~ . -week_start_date,
 
 print(rf_2)
 
-# Best model value is mtry = 253, with MAE of 10.32
+# Best model has MAE of 10.32
 
 stopCluster(cl)
 
