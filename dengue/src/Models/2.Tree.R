@@ -5,7 +5,7 @@ load.project()
 ## (including engineered feature year.season)
 
 # Create dataset with selected features
-dengue.small <- dengue.sj %>% select(-year, -week_start_date)
+dengue.small <- dengue %>% select(-year, -week_start_date)
 
 # Create training set
 set.seed(123)
@@ -25,15 +25,22 @@ predictions.tree_1 <- predict(tree_1, newdata = test_set)
 # Error = actual number of cases - predicted number of cases
 error <- test_set$total_cases - predictions.tree_1
 
-# Find MAE
 mae(error)
+# MAE = 10.46
 
 
 ## Try tree model using bootstrapping instead of training set
 
+# With knn imputation
 tree_2 <- train(total_cases ~ . -week_start_date,
                 data = dengue.knn,
                 method = "rpart")
+print(tree_2) 
+# Best model with cp = 0.01609 has MAE of 20.97
 
-# This model is terrible; with cp of 0.016, the MAE is 20.8.
-# Why is it so much worse than the model evaluated with training/test set validation?
+# With median value imputation
+tree_3 <- train(total_cases ~ . -week_start_date,
+                data = dengue.med,
+                method = "rpart")
+print(tree_3)
+# Best model with cp = 0.01609 has MAE of 19.78
