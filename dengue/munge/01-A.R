@@ -41,6 +41,9 @@ dengue <- left_join(dengue, hotel.guests.copy, by = "month_year")
 # Reorder columns so target is last
 dengue <- dengue[ ,c(1:23,25,26,27,24)]
 
+# Recast nonres_guests as numeric
+dengue$nonres_guests <- as.numeric(as.character(sub(",", "", dengue$nonres_guests)))
+
 ## IMPUTATION OF MISSING VALUES
 
 # With median imputation
