@@ -8,7 +8,7 @@ munging: TRUE
 logging: FALSE
 logging_level: INFO
 load_libraries: TRUE
-libraries: reshape, plyr, dplyr, ggplot2, stringr, lubridate, tidyverse, broom, mae, rpart, partykit, zoo, caret, glmnet, RANN, ranger, randomForest, doParallel, dengue.data, models, lubridate, forecast
+libraries: reshape, plyr, dplyr, ggplot2, stringr, lubridate, tidyverse, broom, mae, rpart, partykit, zoo, caret, glmnet, RANN, ranger, randomForest, doParallel, lubridate, forecast, earth
 as_factors: TRUE
 data_tables: FALSE
 attach_internal_libraries: FALSE
