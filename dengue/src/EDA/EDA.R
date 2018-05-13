@@ -27,3 +27,16 @@ cor.test(dengue$ndvi_nw, dengue$total_cases, method="pearson")
 cor.test(dengue$ndvi_ne, dengue$total_cases, method="pearson")
 cor.test(dengue$ndvi_se, dengue$total_cases, method="pearson")
 cor.test(dengue$ndvi_sw, dengue$total_cases, method="pearson")
+
+## Time series exploration
+
+# Autocorrelation
+acf(dengue.ts.target, plot = FALSE)
+acf(dengue.ts.target)
+ggsave(file.path('graphs/EDAviz', 'autocorrelation.pdf'))
+# Each observation positively associated with its recent past, for at least 16 weeks.
+
+# Autocorrelation of diff
+acf(dengue.ts.target.diff, plot = FALSE)
+acf(dengue.ts.target.diff)
+# Same strong (but weakening over time) positive association
