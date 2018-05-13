@@ -10,7 +10,7 @@ summary(dengue$total_cases)
 ## Examine p-values from Pearson correlations for variables that 
 ## may have linear relationship to total_cases (per EDA viz)
 
-# Significant p-values 
+# Tests that reveal significant p-values 
 cor.test(dengue$weekofyear, dengue$total_cases, method="pearson")
 cor.test(dengue$reanalysis_air_temp_k, dengue$total_cases, method="pearson")
 cor.test(dengue$reanalysis_avg_temp_k, dengue$total_cases, method="pearson")
@@ -23,7 +23,7 @@ cor.test(dengue$station_avg_temp_c, dengue$total_cases, method="pearson")
 cor.test(dengue$station_max_temp_c, dengue$total_cases, method="pearson")
 cor.test(dengue$station_min_temp_c, dengue$total_cases, method="pearson")
 cor.test(dengue$ndvi_nw, dengue$total_cases, method="pearson")
-# Not significant p-values
+# Tests that reveal insignificant p-values
 cor.test(dengue$ndvi_ne, dengue$total_cases, method="pearson")
 cor.test(dengue$ndvi_se, dengue$total_cases, method="pearson")
 cor.test(dengue$ndvi_sw, dengue$total_cases, method="pearson")
