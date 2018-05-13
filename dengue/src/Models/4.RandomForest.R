@@ -17,19 +17,7 @@ rf_1 <- train(total_cases ~ . -week_start_date,
 
 print(rf_1)
 
-# Best model has MAE of 10.06
-
-## With NAs imputed with knn values
-set.seed(555)
-rf_2 <- train(total_cases ~ . -week_start_date,
-              data = dengue.knn,
-              method = "rf",
-              trControl = myControl
-              )
-
-print(rf_2)
-
-# Best model has MAE of 10.32
+# Best model has MAE of 14.5
 
 stopCluster(cl)
 
