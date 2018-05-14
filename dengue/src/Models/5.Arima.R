@@ -1,7 +1,7 @@
 library('ProjectTemplate')
 load.project()
 
-# Fit autoregression model on target
+# Fit autoregression model
 arima_1 <- auto.arima(dengue.ts.target)
 summary(arima_1)
 # Model = ARIMA(1,1,1)
@@ -16,15 +16,34 @@ points(arima_values_1, type = "l", col = "red", lty = 2)
 
 checkresiduals(arima_1)
 
+# Evaluate this model with cross validation
 
-## Add nonres_guests as regression term
+# Turn model into forecast object
+fcobj <- function(y, h){
+  forecast(Arima(y, order = c(1,1,1)), h=h)
+}
+
+# Find forecast errors for 
+e <- tsCV(dengue.ts.target, forecastfunction = fcobj, h=1)
+
+# Find MAE
+mean(abs(e), na.rm = TRUE)
+# 7.89
+
+#############
+# Consider quitting here?
+# Can't figure out how to get xreg into function that gives forecast object for cv
+#############
+
+
+## With nonres_guests as regression term
 
 # Time series with total_cases and nonres_guests
 ts.guests <- dengue[ , 26:27]
 ts.guests <- ts.guests[ , c(2,1)]
 ts.guests <- ts(ts.guests,
-                       freq = 365.25/7,
-                       start = decimal_date(ymd("1990-05-07")))
+                freq = 365.25/7,
+                start = decimal_date(ymd("1990-05-07")))
 
 # Fit model 
 arima_2 <- auto.arima(ts.guests[ ,"total_cases"], xreg = ts.guests[ ,"nonres_guests"])
@@ -33,3 +52,8 @@ summary(arima_2)
 # MAE = 7.93
 
 checkresiduals(arima_2)
+
+
+
+
+
