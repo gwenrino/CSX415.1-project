@@ -1,6 +1,6 @@
-#######################################################################
-# Clean and prepare data
-#######################################################################
+##########################
+# Clean and prepare data #
+##########################
 
 # Add target labels
 dengue.data <- left_join(dengue.features.train, dengue.labels.train)
@@ -68,37 +68,13 @@ prepParams.4 <- preProcess(dengue.knn[ ,1:26], method = c("center", "scale"))
 dengue.knn.scaled <- predict(prepParams.4, dengue.knn[ ,1:26])
 dengue.knn.scaled$total_cases <- dengue.knn$total_cases
 
-## CREATE TIME SERIES VERSIONS
+## CREATE TIME SERIES
 
 # Target only
 dengue.ts.target <- ts(dengue$total_cases,
                        freq = 365.25/7,
                        start = decimal_date(ymd("1990-05-07")))
 
-# Target with seasonal differencing
+# Time series of first differences
 dengue.ts.target.diff <- diff(dengue.ts.target, lag = 52)
-
-# Whole dataset as ts without imputing missing values
-dengue.ts <- ts(dengue,
-                freq = 365.25/7,
-                start = decimal_date(ymd("1990-05-07")))
-
-# No imputation, with seasonal differencing
-dengue.ts.diff <- diff(dengue.ts, lag = 52)
-
-# With median imputation of missing values
-dengue.med.ts <- ts(dengue.med, 
-                    freq = 365.25/7,
-                    start = decimal_date(ymd("1990-05-07")))
-
-# Median imputation and seasonal differencing
-dengue.med.ts.diff <- diff(dengue.med.ts, lag = 52)
-
-# With knn imputation of missing values
-dengue.knn.ts <- ts(dengue.knn,
-                    freq = 365.25/7,
-                    start = decimal_date(ymd("1990-05-07")))
-
-# knn imputation and seasonal differencing
-dengue.knn.ts.diff <- diff(dengue.knn.ts, lag = 52)
 
