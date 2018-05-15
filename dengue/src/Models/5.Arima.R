@@ -1,59 +1,49 @@
 library('ProjectTemplate')
 load.project()
 
-# Fit autoregression model
-arima_1 <- auto.arima(dengue.ts.target)
-summary(arima_1)
-# Model = ARIMA(1,1,1)
-# MAE = 8.05
+# Confirm that variables are stationary
+adf.test(ts.selected[ ,"total_cases"])
+adf.test(ts.selected[ ,"nonres_guests"])
+adf.test(ts.selected[ ,"station_max_temp_c"])
+adf.test(ts.selected[ ,"reanalysis_tdtr_k"])
+adf.test(ts.selected[ ,"reanalysis_dew_point_temp_k"])
+adf.test(ts.selected[ ,"reanalysis_specific_humidity_g_per_kg"])
 
-# Fitted values = observations - model residuals
-arima_values_1 <- dengue.ts.target - residuals(arima_1)
+# Create holdout sample
+ts.train <- ts.selected[1:932, ]
+ts.test <- ts.selected[933:936, ]
 
-# Plot 
-plot(dengue.ts.target)
-points(arima_values_1, type = "l", col = "red", lty = 2)
+## UNIVARIATE TIME SERIES FORECASTING
 
-checkresiduals(arima_1)
+# Fit model to train set
+arima.1 <- auto.arima(ts.train[ ,"total_cases"])
+summary(arima.1)
 
-# Evaluate this model with cross validation
+# Forecast on test set
+fc.1 <- forecast(arima.1)
+accuracy(fc.1)
+# MAE = 8.07
 
-# Turn model into forecast object
-fcobj <- function(y, h){
-  forecast(Arima(y, order = c(1,1,1)), h=h)
-}
+## ADDING SELECTED VARIABLES AS xreg
 
-# Find forecast errors for 
-e <- tsCV(dengue.ts.target, forecastfunction = fcobj, h=1)
+# Define xreg
+v.train <- cbind(Guests = ts.train[ ,"nonres_guests"],
+                 MaxTemp = ts.train[ ,"station_max_temp_c"],
+                 TDTR = ts.train[ ,"reanalysis_tdtr_k"],
+                 DewPt = ts.train[ ,"reanalysis_dew_point_temp_k"],
+                 SpecHum = ts.train[ ,"reanalysis_specific_humidity_g_per_kg"])
 
-# Find MAE
-mean(abs(e), na.rm = TRUE)
-# 7.89
+v.test <- cbind(Guests = ts.test[ ,"nonres_guests"],
+                MaxTemp = ts.test[ ,"station_max_temp_c"],
+                TDTR = ts.test[ ,"reanalysis_tdtr_k"],
+                DewPt = ts.test[ ,"reanalysis_dew_point_temp_k"],
+                SpecHum = ts.test[ ,"reanalysis_specific_humidity_g_per_kg"])
 
-#############
-# Consider quitting here?
-# Can't figure out how to get xreg into function that gives forecast object for cv
-#############
+# Fit model to train set
+arima.2 <- auto.arima(ts.train[ ,"total_cases"], xreg = v.train)
+summary(arima.2)
 
-
-## With nonres_guests as regression term
-
-# Time series with total_cases and nonres_guests
-ts.guests <- dengue[ , 26:27]
-ts.guests <- ts.guests[ , c(2,1)]
-ts.guests <- ts(ts.guests,
-                freq = 365.25/7,
-                start = decimal_date(ymd("1990-05-07")))
-
-# Fit model 
-arima_2 <- auto.arima(ts.guests[ ,"total_cases"], xreg = ts.guests[ ,"nonres_guests"])
-summary(arima_2)
-# Model = ARIMA(2,0,1)
-# MAE = 7.93
-
-checkresiduals(arima_2)
-
-
-
-
-
+# Forecast on test set
+fc.2 <- forecast(arima.2, xreg = v.test)
+accuracy(fc.2)
+# MAE = 7.99
