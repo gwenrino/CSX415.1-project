@@ -29,7 +29,7 @@ predictions.lm_1 <- predict(lm_1, newdata = test_set.1)
 error1 <- test_set.1$total_cases - predictions.lm_1
 
 # Find MAE
-mae(error1)
+mean(abs(error1))
 
 # Create dataset with selected features
 # Data scaled, centered; missing values imputed with knn values
@@ -56,4 +56,4 @@ predictions.lm_2 <- predict(lm_2, newdata = test_set.2)
 error2 <- test_set.2$total_cases - predictions.lm_2
 
 # Find MAE
-mae(error2)
+mean(abs(error2))

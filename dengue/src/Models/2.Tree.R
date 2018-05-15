@@ -25,7 +25,7 @@ predictions.tree_1 <- predict(tree_1, newdata = test_set)
 # Error = actual number of cases - predicted number of cases
 error <- test_set$total_cases - predictions.tree_1
 
-mae(error)
+mean(abs(error))
 # MAE = 10.46
 
 
@@ -36,11 +36,11 @@ tree_2 <- train(total_cases ~ . -week_start_date,
                 data = dengue.knn,
                 method = "rpart")
 print(tree_2) 
-# Best model with cp = 0.01609 has MAE of 20.97
+# Best model has MAE of 20.97
 
 # With median value imputation
 tree_3 <- train(total_cases ~ . -week_start_date,
                 data = dengue.med,
                 method = "rpart")
 print(tree_3)
-# Best model with cp = 0.01609 has MAE of 19.78
+# Best model has MAE of 19.78

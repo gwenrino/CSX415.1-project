@@ -18,4 +18,4 @@ dengue.naive <- dengue %>%
 error <- dengue.naive$total_cases - dengue.naive$predictions
 
 # Find MAE for naive model
-mae(error)
+mean(abs(error))
