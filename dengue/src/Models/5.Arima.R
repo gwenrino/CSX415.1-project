@@ -27,6 +27,13 @@ accuracy(fc.1)
 ## ADDING SELECTED VARIABLES AS xreg
 
 # Define xreg
+
+v <- cbind(Guests = ts.selected[ ,"nonres_guests"],
+           MaxTemp = ts.selected[ ,"station_max_temp_c"],
+           TDTR = ts.selected[ ,"reanalysis_tdtr_k"],
+           DewPt = ts.selected[ ,"reanalysis_dew_point_temp_k"],
+           SpecHum = ts.selected[ ,"reanalysis_specific_humidity_g_per_kg"])
+
 v.train <- cbind(Guests = ts.train[ ,"nonres_guests"],
                  MaxTemp = ts.train[ ,"station_max_temp_c"],
                  TDTR = ts.train[ ,"reanalysis_tdtr_k"],
@@ -47,3 +54,11 @@ summary(arima.2)
 fc.2 <- forecast(arima.2, xreg = v.test)
 accuracy(fc.2)
 # MAE = 7.99
+
+checkresiduals(fc.2)
+
+## THIS WILL BE THE MODEL
+
+# Use model on all data
+arima.model <- auto.arima(ts.selected[ ,"total_cases"], xreg = v)
+summary(arima.model)
