@@ -9,6 +9,11 @@ adf.test(ts.selected[ ,"reanalysis_tdtr_k"])
 adf.test(ts.selected[ ,"reanalysis_dew_point_temp_k"])
 adf.test(ts.selected[ ,"reanalysis_specific_humidity_g_per_kg"])
 
+ts.train <- subset.ts(ts.selected, end = 926)
+
+## I HAVEN'T DONE THIS CORRECTLY.
+## SEE FORECASTING USING R DATACAMP COURSE
+
 # Create holdout sample
 ts.train <- ts.selected[1:932, ]
 ts.test <- ts.selected[933:936, ]
@@ -18,11 +23,15 @@ ts.test <- ts.selected[933:936, ]
 # Fit model to train set
 arima.1 <- auto.arima(ts.train[ ,"total_cases"])
 summary(arima.1)
-
-# Forecast on test set
-fc.1 <- forecast(arima.1)
-accuracy(fc.1)
 # MAE = 8.07
+
+# Forecast on test set ## THIS IS WRONG ##
+fc.1 <- predict.Arima(ts.test[ ,"total_cases"], model = arima.1)
+
+# Calculate MAE of forecast values ## WRONG ##
+error <- ts.test[ ,"total_cases"] - as.numeric(fc.1$mean)
+mean(abs(error))
+# MAE = 5.8
 
 ## ADDING SELECTED VARIABLES AS xreg
 
@@ -50,12 +59,13 @@ v.test <- cbind(Guests = ts.test[ ,"nonres_guests"],
 arima.2 <- auto.arima(ts.train[ ,"total_cases"], xreg = v.train)
 summary(arima.2)
 
-# Forecast on test set
+# Forecast on test set ## NO
 fc.2 <- forecast(arima.2, xreg = v.test)
-accuracy(fc.2)
-# MAE = 7.99
 
-checkresiduals(fc.2)
+# Calculate MAE of forecast values ## NO
+error <- ts.test[ ,"total_cases"] - as.numeric(fc.2$mean)
+mean(abs(error))
+# MAE = 5.8
 
 ## THIS WILL BE THE MODEL
 
