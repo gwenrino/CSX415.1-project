@@ -1,9 +1,0 @@
-Package: DengueModel
-Title: Stores Dengue Prediction Model
-Version: 0.0.0.9000
-Authors@R: person("Gwen", "Rino", email = "gwenrino@gmail.com", role = c("aut", "cre"))
-Description: This package stores a trained arima model for predicting weekly cases of dengue disease in San Juan, Puerto Rico
-Depends: R (>= 3.4.4)
-License: What license is it under?
-Encoding: UTF-8
-LazyData: true
