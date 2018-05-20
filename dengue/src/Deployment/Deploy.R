@@ -57,5 +57,25 @@ train[,"total_cases"] %>%
   forecast(xreg = rep(ptval,6)) %>% 
   accuracy(test[,"total_cases"]) # MAE = 0.66
 
+# Cross validate this model using ro() function from greybox
+x <- ts.final[,"total_cases"]
+xreg <- ts.final[,"reanalysis_dew_point_temp_k"]
+
+ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
+ourValue <- "pred"
+
+returnedValues <- ro(x,h=6,origins=100,ourCall,ourValue)
+
+mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
+# MAE of 10 rolling origin cross validation = 1.85
+# CRAP. This is only the last 10 origins
+# When I go back 100 origins, MAE is 9.6!
+
 dengue.model <- auto.arima(ts.final[,"total_cases"], xreg = ts.final[,"reanalysis_dew_point_temp_k"])
 dewpt.model <- snaive(ts.final[,"reanalysis_dew_point_temp_k"])
+
+autoplot(forecast(dengue.model, 
+                  xreg = rep(forecast(dewpt.model, h=1)[["mean"]]))) + 
+  autolayer(ts.final[,"total_cases"], series = "Actual Cases") + 
+  ylab("Number of Dengue Cases")
+# Is this right? Two plots look identical

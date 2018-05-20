@@ -47,10 +47,10 @@ xreg <- ts.small.1[,"nonres_guests"]
 ourCall <- "predict(arima(x=data, order=c(2,0,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
 ourValue <- "pred"
 
-returnedValues <- ro(x,h=6,origins=10,ourCall,ourValue)
+returnedValues <- ro(x,h=6,origins=100,ourCall,ourValue)
 
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
-# MAE of 10 rolling origin cross validation = 5.7
+# MAE of 100 rolling origin cross validation = 9.72
 
 ## MODEL 2: station_max_temp_c as regressor
 
@@ -69,10 +69,10 @@ xreg <- ts.small.2[,"station_max_temp_c"]
 ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
 ourValue <- "pred"
 
-returnedValues <- ro(x,h=6,origins=10,ourCall,ourValue)
+returnedValues <- ro(x,h=6,origins=100,ourCall,ourValue)
 
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
-# MAE of 10 rolling origin cross validation = 1.9
+# MAE of 100 rolling origin cross validation = 9.6
 
 # MODEL 3: reanalysis_tdtr_k as regressor
 
@@ -91,10 +91,10 @@ xreg <- ts.small.3[,"reanalysis_tdtr_k"]
 ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
 ourValue <- "pred"
 
-returnedValues <- ro(x,h=6,origins=10,ourCall,ourValue)
+returnedValues <- ro(x,h=6,origins=100,ourCall,ourValue)
 
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
-# MAE of 10 rolling origin cross validation = 2.0
+# MAE of 100 rolling origin cross validation = 9.6
 
 ## MODEL 4: reanalysis_dew_point_temp_k as regressor
 
@@ -113,10 +113,10 @@ xreg <- ts.small.4[,"reanalysis_dew_point_temp_k"]
 ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
 ourValue <- "pred"
 
-returnedValues <- ro(x,h=6,origins=10,ourCall,ourValue)
+returnedValues <- ro(x,h=6,origins=100,ourCall,ourValue)
 
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
-# MAE of 10 rolling origin cross validation = 1.85
+# MAE of 100 rolling origin cross validation = 9.6
 
 ## MODEL 5: reanalysis_specific_humidity_g_per_kg as regressor
 
@@ -135,10 +135,10 @@ xreg <- ts.small.5[,"reanalysis_specific_humidity_g_per_kg"]
 ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
 ourValue <- "pred"
 
-returnedValues <- ro(x,h=6,origins=10,ourCall,ourValue)
+returnedValues <- ro(x,h=6,origins=100,ourCall,ourValue)
 
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
-# MAE of 10 rolling origin cross validation = 1.85
+# MAE of 100 rolling origin cross validation = 9.6
 
 ### MODEL 4 seems to be the best model
 
