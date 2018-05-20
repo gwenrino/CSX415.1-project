@@ -1,6 +1,26 @@
 library('ProjectTemplate')
 load.project()
 
+# Create time series of selected features
+selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c", 
+                         "reanalysis_tdtr_k", "reanalysis_dew_point_temp_k",
+                         "reanalysis_specific_humidity_g_per_kg")]
+ts.selected <- ts(selected,
+                  freq = 365.25/7,
+                  start = decimal_date(ymd("1990-05-07")))
+
+##################################
+### Exploration of time series ###
+##################################
+
+# Plot time series
+autoplot(ts.selected[ ,"total_cases"])
+autoplot(ts.selected, facets = TRUE)
+
+# Ljung Box Test for autocorrelation
+Box.test(ts.selected[ ,"total_cases"], lag = 52, fitdf = 0, type = "Lj")
+# Sig p-value says this is not a white noise series
+
 # Confirm that variables are stationary
 adf.test(ts.selected[ ,"total_cases"])
 adf.test(ts.selected[ ,"nonres_guests"])
@@ -8,67 +28,41 @@ adf.test(ts.selected[ ,"station_max_temp_c"])
 adf.test(ts.selected[ ,"reanalysis_tdtr_k"])
 adf.test(ts.selected[ ,"reanalysis_dew_point_temp_k"])
 adf.test(ts.selected[ ,"reanalysis_specific_humidity_g_per_kg"])
+# All variables stationary per adf test
 
-ts.train <- subset.ts(ts.selected, end = 926)
+# ACF plot to understand seasonality
+ggAcf(ts.selected[ ,"total_cases"]) 
+# Seasonality = 1 (weekly) and secondarily 52 (yearly)
 
-## I HAVEN'T DONE THIS CORRECTLY.
-## SEE FORECASTING USING R DATACAMP COURSE
+# Train and test sets for forecast horizon = 6
+train <- subset(ts.selected, start = 1, end = 930)
+test <- subset(ts.selected, start = 931, end = 936)
 
-# Create holdout sample
-ts.train <- ts.selected[1:932, ]
-ts.test <- ts.selected[933:936, ]
+###########################################
+### auto.arima model on target variable ###
+###########################################
 
-## UNIVARIATE TIME SERIES FORECASTING
+# Fit model
+arima.mod <- auto.arima(train[ ,"total_cases"])
+summary(arima.mod) # ARIMA(1,1,1)
 
-# Fit model to train set
-arima.1 <- auto.arima(ts.train[ ,"total_cases"])
-summary(arima.1)
-# MAE = 8.07
+# Confirm that residuals are white noise
+checkresiduals(arima.mod)
 
-# Forecast on test set ## THIS IS WRONG ##
-fc.1 <- predict.Arima(ts.test[ ,"total_cases"], model = arima.1)
+# Forecast with horizon = 6
+arima.fc <- forecast(arima.mod, h=6)
 
-# Calculate MAE of forecast values ## WRONG ##
-error <- ts.test[ ,"total_cases"] - as.numeric(fc.1$mean)
-mean(abs(error))
-# MAE = 5.8
+# Check accuracy on forecasted values
+accuracy(arima.fc, test[ ,"total_cases"]) # MAE on this test is 1.85
 
-## ADDING SELECTED VARIABLES AS xreg
+## Cross validate the accuracy using tsCV()
 
-# Define xreg
+# Function that creates forecast object
+far <- function(x, h){forecast(Arima(x, order=c(1,1,1)), h=h)}
 
-v <- cbind(Guests = ts.selected[ ,"nonres_guests"],
-           MaxTemp = ts.selected[ ,"station_max_temp_c"],
-           TDTR = ts.selected[ ,"reanalysis_tdtr_k"],
-           DewPt = ts.selected[ ,"reanalysis_dew_point_temp_k"],
-           SpecHum = ts.selected[ ,"reanalysis_specific_humidity_g_per_kg"])
+# Errors from rolling origin cross validation tsCV() function
+e <- tsCV(ts.selected[ ,"total_cases"], far, h=6)
 
-v.train <- cbind(Guests = ts.train[ ,"nonres_guests"],
-                 MaxTemp = ts.train[ ,"station_max_temp_c"],
-                 TDTR = ts.train[ ,"reanalysis_tdtr_k"],
-                 DewPt = ts.train[ ,"reanalysis_dew_point_temp_k"],
-                 SpecHum = ts.train[ ,"reanalysis_specific_humidity_g_per_kg"])
-
-v.test <- cbind(Guests = ts.test[ ,"nonres_guests"],
-                MaxTemp = ts.test[ ,"station_max_temp_c"],
-                TDTR = ts.test[ ,"reanalysis_tdtr_k"],
-                DewPt = ts.test[ ,"reanalysis_dew_point_temp_k"],
-                SpecHum = ts.test[ ,"reanalysis_specific_humidity_g_per_kg"])
-
-# Fit model to train set
-arima.2 <- auto.arima(ts.train[ ,"total_cases"], xreg = v.train)
-summary(arima.2)
-
-# Forecast on test set ## NO
-fc.2 <- forecast(arima.2, xreg = v.test)
-
-# Calculate MAE of forecast values ## NO
-error <- ts.test[ ,"total_cases"] - as.numeric(fc.2$mean)
-mean(abs(error))
-# MAE = 5.8
-
-## THIS WILL BE THE MODEL
-
-# Use model on all data
-arima.model <- auto.arima(ts.selected[ ,"total_cases"], xreg = v)
-summary(arima.model)
+# Calculate MAE
+mean(abs(e), na.rm = TRUE)
+# MAE is 13.65
