@@ -85,3 +85,10 @@ selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c",
 ts.selected <- ts(selected,
                   freq = 365.25/7,
                   start = decimal_date(ymd("1990-05-07")))
+
+# Create time series of features for use in final model
+final <- dengue.med[c("total_cases", "reanalysis_dew_point_temp_k")]
+
+ts.final <- ts(final,
+               freq = 365.25/7,
+               start = decimal_date(ymd("1990-05-07")))
