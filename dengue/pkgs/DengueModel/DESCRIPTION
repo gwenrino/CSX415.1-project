@@ -1,0 +1,10 @@
+Package: DengueModel
+Title: Forecast Weekly Cases of Dengue Disease in San Juan, Puerto Rico
+Version: 0.0.0.9000
+Authors@R: person("Gwen", "Rino", email = "gwenrino@gmail.com", role = c("aut", "cre"))
+Description: This package uses an ARIMA(1,1,1) model with xreg variable to forecast the six-week horizon of weekly cases of dengue disease in San Juan, Puerto Rico.
+Depends: R (>= 3.4.4)
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports: tidyverse, forecast
