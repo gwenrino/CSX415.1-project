@@ -45,7 +45,7 @@ mean(abs(e), na.rm = TRUE) # MAE is 0.78
 # Use seasonal naive forecasts of reanalysis_dew_point_temp_k as
 # xreg in forecast of total_cases using ARIMA(1,1,1) model
 
-# Model and forecast reanalysis_dew_point_temp_k
+# Model and forecast reanalysis_dew_point_temp_k, save forecast results
 dewpt.fc <- train[,"reanalysis_dew_point_temp_k"] %>% snaive() %>% forecast(h=6)
 
 # Extract point values, assign to ptval
@@ -57,3 +57,5 @@ train[,"total_cases"] %>%
   forecast(xreg = rep(ptval,6)) %>% 
   accuracy(test[,"total_cases"]) # MAE = 0.66
 
+dengue.model <- auto.arima(ts.final[,"total_cases"], xreg = ts.final[,"reanalysis_dew_point_temp_k"])
+dewpt.model <- snaive(ts.final[,"reanalysis_dew_point_temp_k"])
