@@ -18,8 +18,13 @@ autoplot(ts.selected[ ,"total_cases"])
 autoplot(ts.selected, facets = TRUE)
 
 # Ljung Box Test for autocorrelation
+Box.test(ts.selected[ ,"total_cases"], lag = 1, fitdf = 0, type = "Lj")
+Box.test(ts.selected[ ,"total_cases"], lag = 2, fitdf = 0, type = "Lj")
+Box.test(ts.selected[ ,"total_cases"], lag = 3, fitdf = 0, type = "Lj")
+Box.test(ts.selected[ ,"total_cases"], lag = 4, fitdf = 0, type = "Lj")
+Box.test(ts.selected[ ,"total_cases"], lag = 5, fitdf = 0, type = "Lj")
 Box.test(ts.selected[ ,"total_cases"], lag = 52, fitdf = 0, type = "Lj")
-# Sig p-value says this is not a white noise series
+# Very strongly autocorrelated at lag = 1, with decreasing autocorrelation
 
 # Confirm that variables are stationary
 adf.test(ts.selected[ ,"total_cases"])
@@ -30,9 +35,13 @@ adf.test(ts.selected[ ,"reanalysis_dew_point_temp_k"])
 adf.test(ts.selected[ ,"reanalysis_specific_humidity_g_per_kg"])
 # All variables stationary per adf test
 
-# ACF plot to understand seasonality
+# ACF plot
 ggAcf(ts.selected[ ,"total_cases"]) 
-# Seasonality = 1 (weekly) and secondarily 52 (yearly)
+# Highly autocorrelated to at least lag 16, seasonality at 52?
+
+# Quick test for seasonality
+fit <- tbats(ts.selected[,"total_cases"])
+!is.null(fit$seasonal) # TBATS chooses seasonal model
 
 # Train and test sets for forecast horizon = 6
 train <- subset(ts.selected, start = 1, end = 930)
@@ -66,3 +75,8 @@ e <- tsCV(ts.selected[ ,"total_cases"], far, h=6)
 # Calculate MAE
 mean(abs(e), na.rm = TRUE)
 # MAE is 13.65
+
+# What about accuracy of 6-month horizon forecasts?
+e2 <- tsCV(ts.selected[ ,"total_cases"], far, h=26)
+mean(abs(e2), na.rm = TRUE)
+# MAE is 29.1
