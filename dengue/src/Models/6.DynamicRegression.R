@@ -10,12 +10,13 @@ ts.selected <- ts(selected,
                   freq = 365.25/7,
                   start = decimal_date(ymd("1990-05-07")))
 
-train <- subset(ts.selected, start = 1, end = 930)
-test <- subset(ts.selected, start = 931, end = 936)
-
 ####################################################
 ### Dynamic regression with exogenous regressors ###
+### 6 week horizon                               ###
 ####################################################
+
+train <- subset(ts.selected, start = 1, end = 930)
+test <- subset(ts.selected, start = 931, end = 936)
 
 # Create xreg objects for models
 v1 <- train[,"nonres_guests"]
@@ -29,6 +30,7 @@ a <- mean(test[,"nonres_guests"])
 b <- mean(test[,"station_max_temp_c"])
 c <- mean(test[,"reanalysis_tdtr_k"])
 d <- mean(test[,"reanalysis_dew_point_temp_k"])
+e <- mean(test[,"reanalysis_specific_humidity_g_per_kg"])
 
 ## MODEL 1: nonres_guests as regressor
 
@@ -146,3 +148,142 @@ model <- auto.arima(train[,"total_cases"], xreg = v4)
 fc <- forecast(model, xreg = rep(d,6))
 
 autoplot(fc) + autolayer(test[,"total_cases"], series = "Test Data")
+
+####################################################
+### Dynamic regression with exogenous regressors ###
+### 6 month horizon                              ###
+####################################################
+
+train2 <- subset(ts.selected, start = 1, end = 910)
+test2 <- subset(ts.selected, start = 911, end = 936)
+
+# Create xreg objects for models
+v1.1 <- train2[,"nonres_guests"]
+v2.1 <- train2[,"station_max_temp_c"]
+v3.1 <- train2[,"reanalysis_tdtr_k"]
+v4.1 <- train2[,"reanalysis_dew_point_temp_k"]
+v5.1 <- train2[,"reanalysis_specific_humidity_g_per_kg"]
+
+# Create xreg objects for forecasts
+a.1 <- mean(test2[,"nonres_guests"])
+b.1 <- mean(test2[,"station_max_temp_c"])
+c.1 <- mean(test2[,"reanalysis_tdtr_k"])
+d.1 <- mean(test2[,"reanalysis_dew_point_temp_k"])
+e.1 <- mean(test2[,"reanalysis_specific_humidity_g_per_kg"])
+
+## MODEL 1: nonres_guests as regressor
+
+# Fit model, find accuracy of forecast of test set
+train2[,"total_cases"] %>% auto.arima(xreg = v1.1) %>% 
+  forecast(xreg = rep(a.1,26)) %>% 
+  accuracy(test2[,"total_cases"]) # MAE = 12.38
+
+train2[,"total_cases"] %>% auto.arima(xreg = v1.1) %>% summary() # ARIMA(2,0,1)
+
+# Cross validate using ro() function from greybox
+ts.small.1 <- ts.selected[,1:2]
+x <- ts.small.1[,"total_cases"]
+xreg <- ts.small.1[,"nonres_guests"]
+
+ourCall <- "predict(arima(x=data, order=c(2,0,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
+ourValue <- "pred"
+
+returnedValues <- ro(x,h=26,origins=500,ourCall,ourValue)
+
+mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
+# MAE of 500 rolling origin cross validation = 21.4
+
+## MODEL 2: station_max_temp_c as regressor
+
+# Fit model, find accuracy of forecast of test set
+train2[,"total_cases"] %>% auto.arima(xreg = v2.1) %>% 
+  forecast(xreg = rep(b.1,26)) %>% 
+  accuracy(test2[,"total_cases"]) # MAE = 34.1
+
+train2[,"total_cases"] %>% auto.arima(xreg = v2.1) %>% summary() # ARIMA(1,1,1)
+
+# Cross validate using ro() function from greybox
+ts.small.2 <- ts.selected[,c(1,3)]
+x <- ts.small.2[,"total_cases"]
+xreg <- ts.small.2[,"station_max_temp_c"]
+
+ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
+ourValue <- "pred"
+
+returnedValues <- ro(x,h=26,origins=500,ourCall,ourValue)
+
+mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
+# MAE of 500 rolling origin cross validation = 18.4
+
+# MODEL 3: reanalysis_tdtr_k as regressor
+
+# Fit model, find accuracy of forecast of test set
+train2[,"total_cases"] %>% auto.arima(xreg = v3.1) %>% 
+  forecast(xreg = rep(c.1,26)) %>% 
+  accuracy(test2[,"total_cases"]) # MAE = 35.6
+
+train2[,"total_cases"] %>% auto.arima(xreg = v3.1) %>% summary() # ARIMA(1,1,1)
+
+# Cross validate using ro() function from greybox
+ts.small.3 <- ts.selected[,c(1,4)]
+x <- ts.small.3[,"total_cases"]
+xreg <- ts.small.3[,"reanalysis_tdtr_k"]
+
+ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
+ourValue <- "pred"
+
+returnedValues <- ro(x,h=26,origins=500,ourCall,ourValue)
+
+mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
+# MAE of 500 rolling origin cross validation = 18.6
+
+## MODEL 4: reanalysis_dew_point_temp_k as regressor
+
+# Fit model, find accuracy of forecast of test set
+train2[,"total_cases"] %>% auto.arima(xreg = v4.1) %>% 
+  forecast(xreg = rep(d.1,26)) %>% 
+  accuracy(test2[,"total_cases"]) # MAE = 34.2
+
+train2[,"total_cases"] %>% auto.arima(xreg = v4.1) %>% summary() # ARIMA(1,1,1)
+
+# Cross validate using ro() function from greybox
+ts.small.4 <- ts.selected[,c(1,5)]
+x <- ts.small.4[,"total_cases"]
+xreg <- ts.small.4[,"reanalysis_dew_point_temp_k"]
+
+ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
+ourValue <- "pred"
+
+returnedValues <- ro(x,h=26,origins=500,ourCall,ourValue)
+
+mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
+# MAE of 500 rolling origin cross validation = 18.0
+
+## MODEL 5: reanalysis_specific_humidity_g_per_kg as regressor
+
+# Fit model, find accuracy of forecast of test set
+train2[,"total_cases"] %>% auto.arima(xreg = v5.1) %>% 
+  forecast(xreg = rep(e.1,26)) %>% 
+  accuracy(test2[,"total_cases"]) # MAE = 34.0
+
+train2[,"total_cases"] %>% auto.arima(xreg = v5.1) %>% summary() # ARIMA(1,1,1)
+
+# Cross validate using ro() function from greybox
+ts.small.5 <- ts.selected[,c(1,6)]
+x <- ts.small.5[,"total_cases"]
+xreg <- ts.small.5[,"reanalysis_specific_humidity_g_per_kg"]
+
+ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
+ourValue <- "pred"
+
+returnedValues <- ro(x,h=26,origins=500,ourCall,ourValue)
+
+mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
+# MAE of 500 rolling origin cross validation = 18.0
+
+### MODEL 4 seems to be the best model
+
+model <- auto.arima(train2[,"total_cases"], xreg = v4.1)
+fc <- forecast(model, xreg = rep(d.1,26))
+
+autoplot(fc, xlim = c(2005-01,2009)) + autolayer(test2[,"total_cases"], series = "Test Data")
