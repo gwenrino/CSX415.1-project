@@ -28,6 +28,7 @@ rf_2 <- train(total_cases ~ . -week_start_date,
 )
 
 print(rf_2)
+# MAE with mtry = 27 is 13.8
 
 stopCluster(cl)
 
