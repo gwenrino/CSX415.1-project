@@ -73,6 +73,11 @@ g + geom_col(aes(x=year, y=total_cases))
 # Total cases by weekofyear
 g + geom_col(aes(x=weekofyear, y=total_cases)) + 
   labs(title = "Dengue Cases by Week of the Year", x = "Week of Year", y = "Total Cases")
+
+dengue %>% group_by(weekofyear) %>% summarize(mean = mean(total_cases)) %>%
+  ggplot() + geom_col(aes(x = weekofyear, y = mean)) + 
+  labs(title = "Average Number of Dengue Cases by Week of the Year",
+       x = "Week of Year", y = "Average Number of Cases")
 ggsave(file.path('graphs/EDAviz', 'weekofyear.pdf'))
 
 ### Time series plots
