@@ -56,8 +56,7 @@ fcvar.long <- forecast(fitvar.long, h=26)
 accuracy(fcvar.long,test.long,d=3,D=1)
 # MAE = 26.8 on this tet set
 
-## In lieu of cross validation, try the VAR model on various long-horizon test sets, 
-## then compare MAEs to Dyn Reg model to determine which is better
+## Compare VAR MAEs to Dyn Reg model to determine which is better
 
 dewpt.model <- snaive(ts.selected[,"reanalysis_dew_point_temp_k"]) # for use as xreg in Dyn Reg forecasts
 
