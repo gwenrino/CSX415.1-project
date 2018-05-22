@@ -1,14 +1,6 @@
 library('ProjectTemplate')
 load.project()
 
-# Create time series of selected features
-selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c", 
-                         "reanalysis_tdtr_k", "reanalysis_dew_point_temp_k",
-                         "reanalysis_specific_humidity_g_per_kg")]
-ts.selected <- ts(selected,
-                  freq = 365.25/7,
-                  start = decimal_date(ymd("1990-05-07")))
-
 dengue.model <- VAR(ts.selected, p=3, type = "both")
 
 ## 500 rolling origins cross validation with h=1

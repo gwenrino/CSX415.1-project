@@ -1,14 +1,6 @@
 library('ProjectTemplate')
 load.project()
 
-# Create time series of selected features
-selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c", 
-                         "reanalysis_tdtr_k", "reanalysis_dew_point_temp_k",
-                         "reanalysis_specific_humidity_g_per_kg")]
-ts.selected <- ts(selected,
-                  freq = 365.25/7,
-                  start = decimal_date(ymd("1990-04-30")))
-
 # Plot time series
 plot.ts(ts.selected)
 
@@ -164,7 +156,8 @@ train9[,"total_cases"] %>% auto.arima(xreg = train9[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test9[,"total_cases"])
 
-## VAR is better model in most tests!
-
 # Final version of model, using all data
 dengue.model <- VAR(ts.selected, p=3, type = "both")
+
+# VAR seems better than Dyn Reg on most of these tests, but Dyn Reg cross validation
+# gives better MAEs than VAR cross validation.

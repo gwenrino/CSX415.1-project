@@ -1,15 +1,6 @@
 library('ProjectTemplate')
 load.project()
 
-# Create time series of selected features, and train and test sets
-selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c", 
-                         "reanalysis_tdtr_k", "reanalysis_dew_point_temp_k",
-                         "reanalysis_specific_humidity_g_per_kg")]
-
-ts.selected <- ts(selected,
-                  freq = 365.25/7,
-                  start = decimal_date(ymd("1990-04-30")))
-
 ####################################################
 ### Dynamic regression with exogenous regressors ###
 ### 6 week horizon                               ###
