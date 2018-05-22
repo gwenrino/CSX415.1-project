@@ -9,10 +9,10 @@ dengue.forecast <- function(h){
   forecast_horizon=h
   if(h<1)
     return("h must be a number greater than 0")
-  Forecast <- round(forecast(dengue.model, h=h)$forecast$total_cases[["mean"]])
+  Forecast <- round(forecast::forecast(dengue.model, h=h)$forecast$total_cases[["mean"]])
   Forecast[Forecast<0] <- 0
   Week <- paste("Week", 1:h)
-  Staff <-  case_when(
+  Staff <-  dplyr::case_when(
     Forecast == 0 ~ as.numeric(1),
     Forecast%%9 == 0 ~ as.numeric(Forecast/9),
     Forecast%%9 != 0 ~ as.numeric(Forecast%/%9 + 1),
