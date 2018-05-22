@@ -3,6 +3,8 @@
 #' 
 #' @param h forecast horizon in weeks (a number greater than 0)
 #' @examples dengue.forecast(10) # Returns forecasts for the next 10 weeks
+#' @import dplyr
+#' @import forecast
 #' @export
 
 dengue.forecast <- function(h){
