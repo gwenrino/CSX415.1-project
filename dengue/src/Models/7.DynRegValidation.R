@@ -2,16 +2,17 @@ library('ProjectTemplate')
 load.project()
 
 # Model of total_cases with reanalysis_dew_point_temp_k as regressor
-dengue.model <- auto.arima(ts.final[,"total_cases"], xreg = ts.final[,"reanalysis_dew_point_temp_k"])
-
+model <- auto.arima(ts.final[,"total_cases"], xreg = ts.final[,"reanalysis_dew_point_temp_k"])
 # Model of dew point time series
 dewpt.model <- snaive(ts.final[,"reanalysis_dew_point_temp_k"])
-
 # Get the forecasts of the next h values of dew point
 ptval <- forecast(dewpt.model, h=h)[["mean"]] 
+# Model with dewpt forecasts
+dengue.model <- auto.arima(ts.final[,"total_cases"], xreg = rep[ptval])
+# Use model
+predict(dengue.model, h=h)
 
-# Get the forecasts of dengue cases associated with the h forecasted values of dew point
-fc <- forecast(dengue.model, xreg = rep(ptval))[["mean"]] 
+# Set up for cross validation
 
 x <- ts.final[,"total_cases"]
 xreg <- ts.final[,"reanalysis_dew_point_temp_k"]
