@@ -73,7 +73,7 @@ dengue.knn.scaled$total_cases <- dengue.knn$total_cases
 # Target only
 dengue.ts.target <- ts(dengue$total_cases,
                        freq = 365.25/7,
-                       start = decimal_date(ymd("1990-05-07")))
+                       start = decimal_date(ymd("1990-04-30")))
 
 # Time series of first differences
 dengue.ts.target.diff <- diff(dengue.ts.target, lag = 52)
@@ -84,11 +84,11 @@ selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c",
                          "reanalysis_specific_humidity_g_per_kg")]
 ts.selected <- ts(selected,
                   freq = 365.25/7,
-                  start = decimal_date(ymd("1990-05-07")))
+                  start = decimal_date(ymd("1990-04-30")))
 
 # Create time series of features for use in final model
 final <- dengue.med[c("total_cases", "reanalysis_dew_point_temp_k")]
 
 ts.final <- ts(final,
                freq = 365.25/7,
-               start = decimal_date(ymd("1990-05-07")))
+               start = decimal_date(ymd("1990-04-30")))

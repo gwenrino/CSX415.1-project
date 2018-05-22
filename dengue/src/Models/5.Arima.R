@@ -7,7 +7,7 @@ selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c",
                          "reanalysis_specific_humidity_g_per_kg")]
 ts.selected <- ts(selected,
                   freq = 365.25/7,
-                  start = decimal_date(ymd("1990-05-07")))
+                  start = decimal_date(ymd("1990-04-30")))
 
 ##################################
 ### Exploration of time series ###

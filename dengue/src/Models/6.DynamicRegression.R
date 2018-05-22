@@ -8,7 +8,7 @@ selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c",
 
 ts.selected <- ts(selected,
                   freq = 365.25/7,
-                  start = decimal_date(ymd("1990-05-07")))
+                  start = decimal_date(ymd("1990-04-30")))
 
 ####################################################
 ### Dynamic regression with exogenous regressors ###
@@ -299,7 +299,7 @@ final <- dengue.med[c("total_cases", "reanalysis_dew_point_temp_k")]
 
 ts.final <- ts(final,
                freq = 365.25/7,
-               start = decimal_date(ymd("1990-05-07")))
+               start = decimal_date(ymd("1990-04-30")))
 
 train <- subset(ts.final, start = 1, end = 930)
 test <- subset(ts.final, start = 931, end = 936)
