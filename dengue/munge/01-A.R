@@ -86,7 +86,7 @@ ts.selected <- ts(selected,
                   freq = 365.25/7,
                   start = decimal_date(ymd("1990-04-30")))
 
-# Create time series of features for use in final model
+# Create time series of features for use in Dyn Reg model
 final <- dengue.med[c("total_cases", "reanalysis_dew_point_temp_k")]
 
 ts.final <- ts(final,
