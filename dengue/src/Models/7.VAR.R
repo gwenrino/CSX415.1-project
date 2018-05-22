@@ -164,3 +164,8 @@ train9 %>% VAR(p=3, type = "both") %>% forecast(h=26) %>% accuracy(test9, d=3, D
 train9[,"total_cases"] %>% auto.arima(xreg = train9[,"reanalysis_dew_point_temp_k"]) %>% 
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test9[,"total_cases"])
+
+## VAR is better model in most tests!
+
+# Final version of model, using all data
+dengue.model <- VAR(ts.selected, p=3, type = "both")
