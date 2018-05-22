@@ -21,7 +21,3 @@ dengue.forecast <- function(h){
   )
   print(data.frame(Week,Forecast,Staff))
 }
-
-
-
-
