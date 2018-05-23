@@ -9,9 +9,6 @@
 
 dengue.forecast <- function(h){
   
-  if(class(h) != "numeric")
-    return("h must be a number greater than 0")
-  
   if(h<1)
     return("h must be a number greater than 0")
   
