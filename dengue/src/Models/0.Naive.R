@@ -3,7 +3,7 @@ load.project()
 
 ## Naive model = mean total_cases by season
 
-# Find mean total_cases for each season
+# Find mean total_cases for fall, spring, summer, winter
 dengue %>% group_by(season) %>% 
   summarize(mean = mean(total_cases, na.rm = TRUE))
 
