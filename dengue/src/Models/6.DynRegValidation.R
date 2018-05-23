@@ -9,8 +9,7 @@ dewpt.model <- snaive(ts.final[,"reanalysis_dew_point_temp_k"])
 ptval <- forecast(dewpt.model, h=h)[["mean"]] 
 # Model with dewpt forecasts
 dengue.model <- auto.arima(ts.final[,"total_cases"], xreg = rep[ptval])
-# Use model
-predict(dengue.model, h=h)
+
 
 # Set up for cross validation
 
@@ -42,8 +41,6 @@ mean(abs(returnedValues6$actuals - returnedValues6$pred),na.rm = TRUE)
 returnedValues26 <- ro(x,h=26,origins=500,ourCall,ourValue)
 mean(abs(returnedValues26$actuals - returnedValues26$pred),na.rm = TRUE)
 # MAE = 18.0
-
-
 
 
 
