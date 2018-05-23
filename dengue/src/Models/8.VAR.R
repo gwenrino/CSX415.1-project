@@ -52,7 +52,7 @@ accuracy(fcvar.long,test.long,d=3,D=1)
 
 dewpt.model <- snaive(ts.selected[,"reanalysis_dew_point_temp_k"]) # for use as xreg in Dyn Reg forecasts
 
-## Long horizon test set 2 (Dyn Reg model better)
+## Long horizon (6 month) test set 2 (Dyn Reg model better)
 
 train2 <- subset(ts.selected, start = 1, end = 522)
 test2 <- subset(ts.selected, start = 523, end = 548)
@@ -65,7 +65,7 @@ train2[,"total_cases"] %>% auto.arima(xreg = train2[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test2[,"total_cases"])
 
-## Long horizon test set 3 (VAR model better)
+## Long horizon (6 month) test set 3 (VAR model better)
 
 train3 <- subset(ts.selected, start = 1, end = 574)
 test3 <- subset(ts.selected, start = 575, end = 600)
@@ -78,7 +78,7 @@ train3[,"total_cases"] %>% auto.arima(xreg = train3[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test3[,"total_cases"])
 
-## Long horizon test set 4 (VAR model much better)
+## Long horizon (6 month) test set 4 (VAR model much better)
 
 train4 <- subset(ts.selected, start = 1, end = 626)
 test4 <- subset(ts.selected, start = 627, end = 652)
@@ -91,7 +91,7 @@ train4[,"total_cases"] %>% auto.arima(xreg = train4[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test4[,"total_cases"])
 
-## Long horizon test set 5 (VAR model much better)
+## Long horizon (6 month) test set 5 (VAR model much better)
 
 train5 <- subset(ts.selected, start = 1, end = 678)
 test5 <- subset(ts.selected, start = 679, end = 704)
@@ -104,7 +104,7 @@ train5[,"total_cases"] %>% auto.arima(xreg = train5[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test5[,"total_cases"])
 
-## Long horizon test set 6 (VAR model better)
+## Long horizon (6 month) test set 6 (VAR model better)
 
 train6 <- subset(ts.selected, start = 1, end = 730)
 test6 <- subset(ts.selected, start = 731, end = 756)
@@ -117,7 +117,7 @@ train6[,"total_cases"] %>% auto.arima(xreg = train6[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test6[,"total_cases"])
 
-## Long horizon test set 7 (VAR model much better)
+## Long horizon (6 month) test set 7 (VAR model much better)
 
 train7 <- subset(ts.selected, start = 1, end = 782)
 test7 <- subset(ts.selected, start = 783, end = 808)
@@ -130,7 +130,7 @@ train7[,"total_cases"] %>% auto.arima(xreg = train7[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test7[,"total_cases"])
 
-## Long horizon test set 8 (VAR model better)
+## Long horizon (6 month) test set 8 (VAR model better)
 
 train8 <- subset(ts.selected, start = 1, end = 834)
 test8 <- subset(ts.selected, start = 835, end = 860)
@@ -143,7 +143,7 @@ train8[,"total_cases"] %>% auto.arima(xreg = train8[,"reanalysis_dew_point_temp_
   forecast(xreg = rep(forecast(dewpt.model, h=26)[["mean"]])) %>% 
   accuracy(test8[,"total_cases"])
 
-## Long horizon test set 9 (VAR model better)
+## Long horizon (6 month) test set 9 (VAR model better)
 
 train9 <- subset(ts.selected, start = 1, end = 886)
 test9 <- subset(ts.selected, start = 887, end = 912)
