@@ -1,14 +1,6 @@
 library('ProjectTemplate')
 load.project()
 
-# Create time series of selected features
-selected <- dengue.med[c("total_cases", "nonres_guests", "station_max_temp_c", 
-                         "reanalysis_tdtr_k", "reanalysis_dew_point_temp_k",
-                         "reanalysis_specific_humidity_g_per_kg")]
-ts.selected <- ts(selected,
-                  freq = 365.25/7,
-                  start = decimal_date(ymd("1990-04-30")))
-
 ##################################
 ### Exploration of time series ###
 ##################################
@@ -69,14 +61,21 @@ accuracy(arima.fc, test[ ,"total_cases"]) # MAE on this test is 1.85
 # Function that creates forecast object
 far <- function(x, h){forecast(Arima(x, order=c(1,1,1)), h=h)}
 
-# Errors from rolling origin cross validation tsCV() function
+# Errors from rolling origin cross validation tsCV() function (1 week horizon)
+e <- tsCV(ts.selected[ ,"total_cases"], far, h=1)
+
+# Calculate MAE
+mean(abs(e), na.rm = TRUE)
+# MAE is 7.9
+
+# Errors from rolling origin cross validation tsCV() function (6 week horizon)
 e <- tsCV(ts.selected[ ,"total_cases"], far, h=6)
 
 # Calculate MAE
 mean(abs(e), na.rm = TRUE)
 # MAE is 13.65
 
-# What about accuracy of 6-month horizon forecasts?
+# 6 month horizon
 e2 <- tsCV(ts.selected[ ,"total_cases"], far, h=26)
 mean(abs(e2), na.rm = TRUE)
 # MAE is 29.1

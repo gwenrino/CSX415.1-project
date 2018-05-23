@@ -1,50 +1,52 @@
-library('ProjectTemplate')
-load.project()
+---
+title: "Vector Autoregression Model Performance"
+author: "Gwen Rino"
+date: "May 23, 2018"
+output: html_document
+---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
 
-# Plot time series
-plot.ts(ts.selected)
+```{r load_packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(forecast)
+library(vars)
+```
 
-# Fit VAR model with p=1 (lag 1 autoregression)
+## Model description
+
+Vector Autoregression allows for multivariate time series modeling, so in this model I made use of all five variables identified by `randomForest::importance()` and `earth::evimp()` (see `dengue/src/FeatureSelection/FeatureSelection.R`). These variables are:
+
+- `nonres_guests`  
+- `station_max_temp_c`  
+- `reanalysis_tdtr_k`  
+- `reanalysis_dew_point_temp_k`  
+- `reanalysis_specific_humidity_g_per_kg` 
+
+Experimentation with the parameter p (number of lags in the autoregression) showed that a model with p=1 resulted in residuals = white noise (see `dengue/src/Models/VAR.R`).
+
+```{r}
+
+source("~./src/LoadData/Load.R") # HELP
+source("~./src/Munge/Munge.r") # HELP
+source("~./src/Models/6.VAR.R") # HELP
+
+# Fit model
 fitvar1 <- VAR(ts.selected, p=1, type = "both")
-summary(fitvar1) # Examine output
-acf(residuals(fitvar1)[,1]) # Residuals appear to be white noise
+fitvar1$varresult$total_cases
 
-# Fit VAR model with p=2 (lag 2 autoregression)
-fitvar2 <- VAR(ts.selected, p=2, type = "both")
-summary(fitvar2) # Examine output
-acf(residuals(fitvar2)[,1]) # No real improvement over previous model
+```
 
+## Model evaluation
 
-### Exploration of VAR model with p=1 on forecast horizon = 6 weeks
+Neither the `forecast::tsCV()` function nor the `greybox::ro()` function can be used to cross validate a multivariate time series model, so I wrote a for loop to evaluate 
+this model using the forecast evaluation on a rolling origin method (500 origins). I forecast at three horizons: 1 week ahead, 6 weeks ahead, and 6 months ahead. With an MAE of 6.5 for a 1 week horizon, 14.5 for 6 weeks ahead, and 30.9 for 6 months ahead, this model is not as good as the Dynamic Regression, in spite of the fact that it includes more variables.
 
-# Make train and test sets
-train <- subset(ts.selected, start = 1, end = 930)
-test <- subset(ts.selected, start = 931, end = 936)
+```{r}
 
-# Fit, forecast, check accuracy of forecasts
-fitvar <- VAR(train, p=1, type = "both")
-fcvar <- forecast(fitvar, h=6)
-accuracy(fcvar, test, d=1, D=1)
-# MAE = 8.4 on this test set
-
-
-### Exploration of VAR model with p=1 on forecast horizon = 6 months
-
-# Train and test sets for forecast horizon = 6 months
-train.long <- subset(ts.selected, start = 1, end = 910)
-test.long <- subset(ts.selected, start = 911, end = 936)
-
-# Fit, forecast, check accuracy of forecasts
-fitvar.long <- VAR(train.long, p=1, type = "both")
-fcvar.long <- forecast(fitvar.long, h=26)
-accuracy(fcvar.long, test.long, d=1, D=1)
-# MAE = 46.5 on this tet set
-
-
-### 500 rolling origin cross validation
-
-# Divide time series with 500 observations in the test set
+# Divide time series with 500 observations in test set
 train1 <- subset(ts.selected, end = 436) # subset of series ending at this point
 test1 <- subset(ts.selected, start = 437) # subset of series beginning and next point
 
@@ -52,6 +54,7 @@ test1 <- subset(ts.selected, start = 437) # subset of series beginning and next 
 h <- 1 # the horizon
 n <- length(test1[,1]) - h + 1 # number of obs in test set (500) - horizon (1) + 1
 fcmat <- matrix(0, nrow=n, ncol=h) # a matrix of 0s that is 500x1
+
 for(i in 1:n) 
 {  
   x <- subset(ts.selected, end = 436 + (i-1)) # the ts subset (for each iteration)
@@ -59,14 +62,17 @@ for(i in 1:n)
   fcmat[i,] <- forecast(refit, h=h)$forecast$total_cases[["mean"]] # forecast, extract the point forecasts, put results in matrix 
 }
 
+# Calculate accuracy
+print("1 week horizon accuracy")
 accuracy(fcmat[,1], test1[,"total_cases"]) # compare forecasts to test set
-# MAE = 6.48
 
 
 ## Horizon = 6 weeks
+
 h <- 6 # the horizon
 n <- length(test1[,1]) - h + 1 # number of obs in test set (500) - horizon (6) + 1
 fcmat <- matrix(0, nrow=n, ncol=h) # a matrix of 0s that is 495 x 6
+
 for(i in 1:n) 
 {  
   x <- subset(ts.selected, end = 436 + (i-1)) # the ts subset (for each iteration)
@@ -74,14 +80,17 @@ for(i in 1:n)
   fcmat[i,] <- forecast(refit, h=h)$forecast$total_cases[["mean"]] # forecast, extract the point forecasts, put results in matrix 
 }
 
+# Calculate accuracy
+print("6 week horizon accuracy")
 accuracy(fcmat[,6], subset(ts.selected, start = 442)[,"total_cases"]) # compare forecasts to true values beginning 495 from end
-# MAE = 14.5
 
 
 ## Horizon = 6 months
+
 h <- 26 # the horizon
 n <- length(test1[,1]) - h + 1 # number of obs in test set (500) - horizon (26) + 1
 fcmat <- matrix(0, nrow=n, ncol=h) # a matrix of 0s that is 475 x 6
+
 for(i in 1:n) 
 {  
   x <- subset(ts.selected, end = 436 + (i-1)) # the ts subset (for each iteration)
@@ -89,8 +98,9 @@ for(i in 1:n)
   fcmat[i,] <- forecast(refit, h=h)$forecast$total_cases[["mean"]] # forecast, extract the point forecasts, put results in matrix 
 }
 
+# Calculate accuracy
+print("6 month horizon accuracy")
 accuracy(fcmat[,26], subset(ts.selected, start = 462)[,"total_cases"]) # compare forecasts to true values beginning 475 from end
-# MAE = 30.9
 
-
+```
 

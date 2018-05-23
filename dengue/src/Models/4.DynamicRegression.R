@@ -2,8 +2,9 @@ library('ProjectTemplate')
 load.project()
 
 ####################################################
-### Dynamic regression with exogenous regressors ###
+### Dynamic regression with exogenous regressor  ###
 ### 6 week horizon                               ###
+### Mean of future value of xreg variable for fc ###
 ####################################################
 
 train <- subset(ts.selected, start = 1, end = 930)
@@ -23,7 +24,7 @@ c <- mean(test[,"reanalysis_tdtr_k"])
 d <- mean(test[,"reanalysis_dew_point_temp_k"])
 e <- mean(test[,"reanalysis_specific_humidity_g_per_kg"])
 
-## MODEL 1: nonres_guests as regressor
+## MODEL 1: nonres_guests as regressor 
 
 # Fit model, find accuracy of forecast of test set
 train[,"total_cases"] %>% auto.arima(xreg = v1) %>% 
@@ -45,7 +46,7 @@ returnedValues <- ro(x,h=6,origins=500,ourCall,ourValue)
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
 # MAE of 500 rolling origin cross validation = 9.5
 
-## MODEL 2: station_max_temp_c as regressor
+## MODEL 2: station_max_temp_c as regressor 
 
 # Fit model, find accuracy of forecast of test set
 train[,"total_cases"] %>% auto.arima(xreg = v2) %>% 
@@ -67,7 +68,7 @@ returnedValues <- ro(x,h=6,origins=500,ourCall,ourValue)
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
 # MAE of 500 rolling origin cross validation = 8.02
 
-# MODEL 3: reanalysis_tdtr_k as regressor
+# MODEL 3: reanalysis_tdtr_k as regressor 
 
 # Fit model, find accuracy of forecast of test set
 train[,"total_cases"] %>% auto.arima(xreg = v3) %>% 
@@ -89,7 +90,7 @@ returnedValues <- ro(x,h=6,origins=500,ourCall,ourValue)
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
 # MAE of 500 rolling origin cross validation = 8.05
 
-## MODEL 4: reanalysis_dew_point_temp_k as regressor
+## MODEL 4: reanalysis_dew_point_temp_k as regressor 
 
 # Fit model, find accuracy of forecast of test set
 train[,"total_cases"] %>% auto.arima(xreg = v4) %>% 
@@ -111,7 +112,7 @@ returnedValues <- ro(x,h=6,origins=500,ourCall,ourValue)
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
 # MAE of 500 rolling origin cross validation = 7.98
 
-## MODEL 5: reanalysis_specific_humidity_g_per_kg as regressor
+## MODEL 5: reanalysis_specific_humidity_g_per_kg as regressor 
 
 # Fit model, find accuracy of forecast of test set
 train[,"total_cases"] %>% auto.arima(xreg = v5) %>% 
@@ -133,16 +134,10 @@ returnedValues <- ro(x,h=6,origins=500,ourCall,ourValue)
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
 # MAE of 500 rolling origin cross validation = 7.98
 
-### MODEL 4 seems to be the best model
-
-model <- auto.arima(train[,"total_cases"], xreg = v4)
-fc <- forecast(model, xreg = rep(d,6))
-
-autoplot(fc) + autolayer(test[,"total_cases"], series = "Test Data")
-
 ####################################################
 ### Dynamic regression with exogenous regressors ###
 ### 6 month horizon                              ###
+### Mean of future value of xreg variable for fc ###
 ####################################################
 
 train2 <- subset(ts.selected, start = 1, end = 910)
@@ -272,10 +267,10 @@ returnedValues <- ro(x,h=26,origins=500,ourCall,ourValue)
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
 # MAE of 500 rolling origin cross validation = 18.0
 
-### MODEL 4 seems to be the best model
+### For both 6 week and 26 week horizons, Model 4 seems to be the best
 
-model <- auto.arima(train2[,"total_cases"], xreg = v4.1)
-fc <- forecast(model, xreg = rep(d.1,26))
+model <- auto.arima(ts.selected[,"total_cases"], 
+                    xreg = ts.selected[,"reanalysis_dew_point_temp_k"])
 
 ###############################################
 ### Forecasting reanalysis_dew_point_temp_k ###
@@ -325,31 +320,3 @@ mean(abs(e), na.rm = TRUE) # MAE is 0.78
 
 # Use seasonal naive forecasts of reanalysis_dew_point_temp_k as
 # xreg in forecast of total_cases using ARIMA(1,1,1) model
-
-# Model and forecast reanalysis_dew_point_temp_k, save forecast results
-dewpt.fc <- train[,"reanalysis_dew_point_temp_k"] %>% snaive() %>% forecast(h=6)
-
-# Extract point values, assign to ptval
-ptval <- dewpt.fc[["mean"]]
-
-# Fit model, find accuracy of forecast of test set using ptval as xreg for forecasts
-train[,"total_cases"] %>% 
-  auto.arima(xreg = train[,"reanalysis_dew_point_temp_k"]) %>% 
-  forecast(xreg = rep(ptval,6)) %>% 
-  accuracy(test[,"total_cases"]) # MAE = 0.66
-
-# Cross validate this model using ro() function from greybox
-x <- ts.final[,"total_cases"]
-xreg <- ts.final[,"reanalysis_dew_point_temp_k"]
-
-ourCall <- "predict(arima(x=data, order=c(1,1,1), xreg=xreg[counti]), n.ahead=h, newxreg=xreg[counto])"
-ourValue <- "pred"
-
-returnedValues <- ro(x,h=6,origins=500,ourCall,ourValue)
-
-mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
-# MAE of 500 rolling origin cross validation = 7.98
-
-# Models with all data 
-dengue.model <- auto.arima(ts.final[,"total_cases"], xreg = ts.final[,"reanalysis_dew_point_temp_k"])
-dewpt.model <- snaive(ts.final[,"reanalysis_dew_point_temp_k"])

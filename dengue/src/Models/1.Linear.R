@@ -6,10 +6,10 @@ load.project()
 
 # Create dataset with selected features
 # Data scaled, centered; missing values imputed with median values
-dengue.med.sm <- dengue.med.scaled %>% select(ndvi_nw, reanalysis_air_temp_k:reanalysis_min_air_temp_k,
-                                     reanalysis_relative_humidity_percent, reanalysis_specific_humidity_g_per_kg,
-                                     station_avg_temp_c, station_max_temp_c, station_min_temp_c, total_cases, 
-                                     weekofyear)
+dengue.med.sm <- dengue.med.scaled[ ,c("ndvi_nw", "reanalysis_air_temp_k", "reanalysis_min_air_temp_k",
+                                     "reanalysis_relative_humidity_percent", "reanalysis_specific_humidity_g_per_kg",
+                                     "station_avg_temp_c", "station_max_temp_c", "station_min_temp_c", "total_cases", 
+                                     "weekofyear")]
 
 # Create training set
 set.seed(555)
@@ -33,10 +33,10 @@ mean(abs(error1))
 
 # Create dataset with selected features
 # Data scaled, centered; missing values imputed with knn values
-dengue.knn.sm <- dengue.knn.scaled %>% select(ndvi_nw, reanalysis_air_temp_k:reanalysis_min_air_temp_k,
-                                              reanalysis_relative_humidity_percent, reanalysis_specific_humidity_g_per_kg,
-                                              station_avg_temp_c, station_max_temp_c, station_min_temp_c, total_cases, 
-                                              weekofyear)
+dengue.knn.sm <- dengue.knn.scaled[ ,c("ndvi_nw", "reanalysis_air_temp_k", "reanalysis_min_air_temp_k",
+                                       "reanalysis_relative_humidity_percent", "reanalysis_specific_humidity_g_per_kg",
+                                       "station_avg_temp_c", "station_max_temp_c", "station_min_temp_c", "total_cases", 
+                                       "weekofyear")]
 
 # Create training set
 set.seed(777)

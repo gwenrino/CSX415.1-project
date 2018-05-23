@@ -20,7 +20,8 @@ In order to establish a baseline measure of Mean Absolute Error (MAE) for dengue
 ```{r}
 
 source("~./src/LoadData/Load.R") # HELP
-source("~./src/Munge/Munge.r") # HELP
+source("~./src/Munge/Munge.R") # HELP
+source("~./src/Models/0.Naive.R") # HELP
 
 # Find mean total_cases for fall, spring, summer, winter
 dengue %>% group_by(season) %>% 

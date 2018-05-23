@@ -5,7 +5,7 @@ load.project()
 ## (including engineered feature year.season)
 
 # Create dataset with selected features
-dengue.small <- dengue %>% select(-year, -week_start_date)
+dengue.small <- dengue[-c(1, 3)]
 
 # Create training set
 set.seed(123)
@@ -26,7 +26,7 @@ predictions.tree_1 <- predict(tree_1, newdata = test_set)
 error <- test_set$total_cases - predictions.tree_1
 
 mean(abs(error))
-# MAE = 10.46
+# MAE = 17.1
 
 
 ## Try tree model using bootstrapping instead of training set
@@ -36,11 +36,11 @@ tree_2 <- train(total_cases ~ . -week_start_date,
                 data = dengue.knn,
                 method = "rpart")
 print(tree_2) 
-# Best model has MAE of 20.97
+# Best model has MAE of 20.49
 
 # With median value imputation
 tree_3 <- train(total_cases ~ . -week_start_date,
                 data = dengue.med,
                 method = "rpart")
 print(tree_3)
-# Best model has MAE of 19.78
+# Best model has MAE of 20.27
