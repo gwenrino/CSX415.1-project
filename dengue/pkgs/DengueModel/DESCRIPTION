@@ -1,6 +1,6 @@
 Package: DengueModel
 Title: Forecast Weekly Cases of Dengue Disease in San Juan, Puerto Rico
-Version: 0.0.1.2000
+Version: 0.0.1.3000
 Authors@R: person("Gwen", "Rino", email = "gwenrino@gmail.com", role = c("aut", "cre"))
 Description: This package uses a VAR (vector autoregression) model to forecast the number of weekly cases of dengue disease in San Juan, Puerto Rico.
 Depends: R (>= 3.4.4), dplyr, forecast

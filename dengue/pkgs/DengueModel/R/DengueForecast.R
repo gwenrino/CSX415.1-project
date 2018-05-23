@@ -8,16 +8,39 @@
 #' @export
 
 dengue.forecast <- function(h){
-  forecast_horizon=h
+  
+  if(class(h) != "numeric")
+    return("h must be a number greater than 0")
+  
   if(h<1)
     return("h must be a number greater than 0")
-  Forecast <- round(forecast::forecast(dengue.model, h=h)$forecast$total_cases[["mean"]])
-  Forecast[Forecast<0] <- 0
+  
   Week <- paste("Week", 1:h)
-  Staff <-  dplyr::case_when(
-    Forecast == 0 ~ as.numeric(1),
-    Forecast%%9 == 0 ~ as.numeric(Forecast/9),
-    Forecast%%9 != 0 ~ as.numeric(Forecast%/%9 + 1),
+  
+  ForecastLo <- round(forecast::forecast(dengue.model, h=h)$forecast$total_cases$lower[,2])
+  ForecastLo[ForecastLo<0] <- 0
+  StaffLo <-  dplyr::case_when(
+    ForecastLo == 0 ~ as.numeric(1),
+    ForecastLo%%9 == 0 ~ as.numeric(ForecastLo/9),
+    ForecastLo%%9 != 0 ~ as.numeric(ForecastLo%/%9 + 1)
   )
-  print(data.frame(Week,Forecast,Staff))
+  
+  ForecastMid <- round(forecast::forecast(dengue.model, h=h)$forecast$total_cases[["mean"]])
+  ForecastMid[ForecastMid<0] <- 0
+  StaffMid <-  dplyr::case_when(
+    ForecastMid == 0 ~ as.numeric(1),
+    ForecastMid%%9 == 0 ~ as.numeric(ForecastMid/9),
+    ForecastMid%%9 != 0 ~ as.numeric(ForecastMid%/%9 + 1)
+  )
+  
+  ForecastHi <- round(forecast::forecast(dengue.model, h=h)$forecast$total_cases$upper[,2])
+  ForecastHi[ForecastHi<0] <- 0
+  StaffHi <-  dplyr::case_when(
+    ForecastHi == 0 ~ as.numeric(1),
+    ForecastHi%%9 == 0 ~ as.numeric(ForecastHi/9),
+    ForecastHi%%9 != 0 ~ as.numeric(ForecastHi%/%9 + 1)
+  )
+  
+  print(data.frame(Week,ForecastLo,StaffLo,ForecastMid,StaffMid,ForecastHi,StaffHi))
 }
+
