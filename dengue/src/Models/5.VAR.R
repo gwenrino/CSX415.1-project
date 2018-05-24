@@ -46,7 +46,7 @@ accuracy(fcvar.long, test.long, d=1, D=1)
 
 # Divide time series with 500 observations in the test set
 train1 <- subset(ts.selected, end = 436) # subset of series ending at this point
-test1 <- subset(ts.selected, start = 437) # subset of series beginning and next point
+test1 <- subset(ts.selected, start = 437) # subset of series beginning at next point
 
 # Horizon = 1 week
 h <- 1 # the horizon

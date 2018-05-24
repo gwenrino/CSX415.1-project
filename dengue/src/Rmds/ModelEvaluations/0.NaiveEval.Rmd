@@ -2,29 +2,29 @@
 title: "Baseline Model Performance"
 author: "Gwen Rino"
 date: "April 11, 2018"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r load_packages, warning=FALSE, message=FALSE}
-library(tidyverse)
+```{r load_packages, echo=FALSE, warning=FALSE, message=FALSE}
+library(ProjectTemplate)
 ```
 
-## Model description  
+```{r echo=FALSE, results='hide', message=FALSE}
+setwd("../../..")
+load.project()
+```
 
-In order to establish a baseline measure of Mean Absolute Error (MAE) for dengue prediction models, I created a naive model that predicts the number of cases of dengue per week to be equal to the average number of cases for that season of the year.
+## Model Description  
+  
+In order to establish a baseline measure of Mean Absolute Error (MAE) for dengue prediction models, I created a naive model that predicts the number of cases of dengue per week to be equal to the average number of cases for that season of the year.\
 
 ```{r}
-
-source("~./src/LoadData/Load.R") # HELP
-source("~./src/Munge/Munge.R") # HELP
-source("~./src/Models/0.Naive.R") # HELP
-
 # Find mean total_cases for fall, spring, summer, winter
-dengue %>% group_by(season) %>% 
+dengue %>% dplyr::group_by(season) %>% 
   summarize(mean = mean(total_cases, na.rm = TRUE))
 
 # Assign seasonal mean as prediction for each observation
@@ -37,16 +37,16 @@ dengue.naive <- dengue %>%
 predictions <- dengue.naive$predictions
 ```
 
-## Model evaluation  
-
-The baseline MAE is 25.5.
+## Model Evaluation  
+  
+The baseline MAE is 25.5.\
 
 ```{r}
 # Error = actual number of cases - predicted number of cases
 error <- dengue.naive$total_cases - predictions
 
 # Find MAE
-mean(abs(error))
+print(paste("Naive model MAE = ", mean(abs(error))))
 ```
 
 

@@ -1,0 +1,59 @@
+---
+title: "Arima Model Performance"
+author: "Gwen Rino"
+date: "May 23, 2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load_packages, echo=FALSE, warning=FALSE, message=FALSE}
+library(ProjectTemplate)
+```
+
+```{r echo=FALSE, results='hide', message=FALSE}
+setwd("../../..")
+load.project()
+```
+## Model Description  
+  
+This is a univariate time series model that utilizes the `auto.arima()` function to determine that the best fit ARIMA is an ARIMA(1,1,1) model.\
+  
+```{r}
+# Fit model
+arima.mod <- auto.arima(ts.selected[ ,"total_cases"])
+summary(arima.mod)
+
+```
+
+## Model Evaluation  
+  
+I used the `forecast::tsCV()` function to cross validate this model using the forecast evaluation on a rolling origin method. I forecast at three horizons: 1 week ahead, 6 weeks ahead, and 6 months ahead. As expected, the MAE increases with a longer horizon forecast, from 7.9 for a 1 week horizon to 29.1 for a 6 month horizon.\
+  
+```{r}
+
+# Function that creates forecast object
+far <- function(x, h){forecast(Arima(x, order=c(1,1,1)), h=h)}
+
+# 1 week horizon
+e <- tsCV(ts.selected[ ,"total_cases"], far, h=1)
+# Calculate MAE
+print(paste("1 week horizon MAE = ", mean(abs(e), na.rm = TRUE)))
+
+# 6 week horizon
+e1 <- tsCV(ts.selected[ ,"total_cases"], far, h=6)
+# Calculate MAE
+print(paste("6 week horizon MAE = ", mean(abs(e1), na.rm = TRUE)))
+
+
+# 6 month horizon
+e2 <- tsCV(ts.selected[ ,"total_cases"], far, h=26)
+# Calculate MAE
+print(paste("6 month horizon MAE = ", mean(abs(e2), na.rm = TRUE)))
+
+```
+
+
+

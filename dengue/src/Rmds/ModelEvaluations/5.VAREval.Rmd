@@ -2,36 +2,35 @@
 title: "Vector Autoregression Model Performance"
 author: "Gwen Rino"
 date: "May 23, 2018"
-output: html_document
+output: pdf_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r load_packages, warning=FALSE, message=FALSE}
-library(tidyverse)
-library(forecast)
-library(vars)
+```{r load_packages, echo=FALSE, warning=FALSE, message=FALSE}
+library(ProjectTemplate)
 ```
 
-## Model description
+```{r echo=FALSE, results='hide', message=FALSE}
+setwd("../../..")
+load.project()
+```
 
-Vector Autoregression allows for multivariate time series modeling, so in this model I made use of all five variables identified by `randomForest::importance()` and `earth::evimp()` (see `dengue/src/FeatureSelection/FeatureSelection.R`). These variables are:
+## Model Description  
+  
+Vector Autoregression allows for multivariate time series modeling, so in this model I made use of all five variables identified by `randomForest::importance()` and `earth::evimp()` (see "dengue/src/FeatureSelection/FeatureSelection.R"). These variables are:  
 
-- `nonres_guests`  
-- `station_max_temp_c`  
-- `reanalysis_tdtr_k`  
-- `reanalysis_dew_point_temp_k`  
-- `reanalysis_specific_humidity_g_per_kg` 
+- nonres_guests
+- station_max_temp_c
+- reanalysis_tdtr_k
+- reanalysis_dew_point_temp_k
+- reanalysis_specific_humidity_g_per_kg  
 
-Experimentation with the parameter p (number of lags in the autoregression) showed that a model with p=1 resulted in residuals = white noise (see `dengue/src/Models/VAR.R`).
+Experimentation with the parameter p (number of lags in the autoregression) showed that a model with p=1 resulted in residuals = white noise (see "dengue/src/Models/VAR.R").\
 
 ```{r}
-
-source("~./src/LoadData/Load.R") # HELP
-source("~./src/Munge/Munge.r") # HELP
-source("~./src/Models/6.VAR.R") # HELP
 
 # Fit model
 fitvar1 <- VAR(ts.selected, p=1, type = "both")
@@ -39,16 +38,15 @@ fitvar1$varresult$total_cases
 
 ```
 
-## Model evaluation
-
-Neither the `forecast::tsCV()` function nor the `greybox::ro()` function can be used to cross validate a multivariate time series model, so I wrote a for loop to evaluate 
-this model using the forecast evaluation on a rolling origin method (500 origins). I forecast at three horizons: 1 week ahead, 6 weeks ahead, and 6 months ahead. With an MAE of 6.5 for a 1 week horizon, 14.5 for 6 weeks ahead, and 30.9 for 6 months ahead, this model is not as good as the Dynamic Regression, in spite of the fact that it includes more variables.
+## Model Evaluation  
+  
+Neither the `forecast::tsCV()` function nor the `greybox::ro()` function can be used to cross validate a multivariate time series model, so I wrote a for loop to evaluate this model using the forecast evaluation on a rolling origin method (500 origins). I forecast at three horizons: 1 week ahead, 6 weeks ahead, and 6 months ahead. With an MAE of 6.5 for a 1 week horizon, 14.5 for 6 weeks ahead, and 30.9 for 6 months ahead, this model is not as good as the Dynamic Regression, in spite of the fact that it includes more variables.\
 
 ```{r}
 
 # Divide time series with 500 observations in test set
 train1 <- subset(ts.selected, end = 436) # subset of series ending at this point
-test1 <- subset(ts.selected, start = 437) # subset of series beginning and next point
+test1 <- subset(ts.selected, start = 437) # subset of series beginning at next point
 
 # Horizon = 1 week
 h <- 1 # the horizon
