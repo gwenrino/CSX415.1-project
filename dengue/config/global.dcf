@@ -1,4 +1,4 @@
-version: 0.8
+version: 0.8.2
 data_loading: TRUE
 data_loading_header: TRUE
 data_ignore:
@@ -8,9 +8,13 @@ munging: TRUE
 logging: FALSE
 logging_level: INFO
 load_libraries: TRUE
-libraries: reshape, plyr, dplyr, ggplot2, stringr, lubridate, tidyverse, broom, mae, rpart, partykit, zoo, caret, glmnet, RANN, ranger, randomForest, doParallel, lubridate, forecast, earth, tseries, greybox, vars, astsa, devtools, roxygen2
+libraries: reshape, plyr, dplyr, ggplot2, stringr, lubridate,
+       tidyverse, broom, rpart, partykit, zoo, caret,
+       glmnet, RANN, ranger, randomForest, doParallel,
+       lubridate, forecast, earth, tseries, greybox, vars,
+       astsa, devtools, roxygen2
 as_factors: TRUE
 data_tables: FALSE
 attach_internal_libraries: FALSE
-cache_loaded_data:  TRUE
+cache_loaded_data: TRUE
 sticky_variables: NONE
