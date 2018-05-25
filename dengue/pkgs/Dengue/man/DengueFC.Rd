@@ -9,6 +9,14 @@ DengueFC(h)
 \arguments{
 \item{h}{forecast horizon in weeks (a number greater than 0)}
 }
+\details{
+The function returns six pieces of information:  \cr
+\emph{Forecast} is the number of dengue cases for that week as forecast by the model.  \cr
+\emph{Lo95} and \emph{Hi95} show the range of the 95 percent confidence interval of the dengue forecasts for that week.  \cr
+\emph{StaffRec} is the number of health care workers needed to maintain the required 1:9 staffing ratio for the forecasted number of cases that week.  \cr
+\emph{StaffLo} and \emph{StaffHi} show the range of number of health care workers suggested by the 95 percent confidence interval of the dengue forecasts.
+}
 \examples{
-DengueFC(10) # Returns forecasts for the next 10 weeks
+DengueFC(10) # Returns dengue case forecasts and recommended staffing levels for the next 10 weeks
+
 }
