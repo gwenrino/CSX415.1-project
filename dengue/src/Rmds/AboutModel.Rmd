@@ -1,0 +1,357 @@
+---
+title: "About the Dengue Forecasting Tool"
+author: "Gwen Rino"
+date: "5/25/2018"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load_packages, echo=FALSE, warning=FALSE, message=FALSE}
+library(ProjectTemplate)
+library(knitr)
+```
+
+```{r echo=FALSE, results='hide', message=FALSE}
+setwd("../..")
+load.project()
+```
+
+```{r, echo=FALSE, warning=FALSE}
+
+# Recreate final time series with season for use in this report
+withseason <- dengue.med[c("total_cases", "reanalysis_dew_point_temp_k", "season")]
+withseason$currentstaff <- case_when(
+  withseason$season == "spring" ~ as.numeric(1),
+  withseason$season == "summer" ~ as.numeric(5),
+  withseason$season == "fall" ~ as.numeric(5),
+  withseason$season == "winter" ~ as.numeric(2)
+)
+
+ts <- ts(withseason, freq = 365.25/7, start = decimal_date(ymd("1990-04-30")))
+```
+
+## OVERVIEW  
+
+No forecasting method can perfectly predict the future, but data science offers tools that can make estimates of what is most likely to happen by analyzing patterns from past events. These forecasts, uncertain as they are, can offer valuable information to help organizations make critical decisions about the best use of resources.  
+
+On behalf of the Departamento de Salud de Puerto Rico, we are able to offer a tool for forecasting the number of weekly cases of dengue disease with enough accuracy to substantially improve efficiency in staffing the San Juan public health clinic.  
+
+## USING THE FORECASTING TOOL  
+
+For instructions on installing and using the tool, please see ().  
+
+## HOW THE FORECASTING TOOL WORKS  
+
+The forecasting tool is based on a predictive model that makes use of two types of information about the past, both of which are quite intuitive, to forecast the future.  
+
+The first type of information in the model is about weather, which is makes sense given the fact that dengue is a mosquito-borne virus. Indeed, the Departamento de Salud's current staffing model, which adjusts staffing levels according to the season of the year, is based on the well-understood seasonal relationship between weather patterns, mosquito populations, and disease. Our mathematical model refines and focuses this insight.  
+
+The second type of information is recent number of cases of dengue disease. This is also intuitive; you would not expect to see a precipitous increase or decrease in number of cases from one week to the next most of the time; today's incidence of disease is related to tomorrow's. Our mathematical model takes advantage of this strong predictive pattern (a phenomenon called autocorrelation).  
+
+A plot of the number of weekly dengue cases over time suggests both of these relationships. There is a clear annual cycle with disease levels rising in the summer and fall, and falling in the winter and spring, which suggests the correlation between weather and disease. Furthermore, the number of cases doesn't oscillate and generally doesn't jump wildly from one observation to the next; it rises for a time and then falls for a time, suggesting that the recent past is strongly correlated with the near future.  
+
+```{r, echo=FALSE}
+
+autoplot(ts[,"total_cases"], ylab = "Number of Weekly Dengue Cases")
+
+```
+
+The forecasting tool forecasts the number of cases of dengue disease for a time horizon of the user's choice, and returns both a forecast of the number of cases for each future week and also the number of staff that would be needed to meet the required 1:9 staffing level for the forecasted number of cases.  
+
+It should be emphasized that the forecasting tool gives much more dependable results for near-future predictions than long-term ones; the uncertainty rises dramatically for longer time horizons. The average error (positive or negative) in predicted number of dengue cases looking ahead one week is just 1.06; looking ahead six weeks the error rises to 7.98; looking ahead six months the error is 18.03. (For more information about the accuracy of the model at different time horizons, please see the document 4.DynRegEval.pdf, which can be found at dengue/reports/ModelEvaluations/4.DynRegEval.pdf)
+
+## THE IMPACT OF THE FORECASTING TOOL  
+
+In order to understand the potential impact of the forecasting tool, it is helpful to compare what has actually happened in the past with what would have happened had the forecasting tool been in use at that time.
+
+(As a reminder, the current staffing model for the San Juan clinic calls for 1 dengue specialist in the spring, increases that number to 5 during the summer and fall when disease is more prevalent, and reduces the number to 2 during the winter. The clinic fills in with per diem nurses as needed in order to meet the minimum required ratio, 1:9, of caregivers to patients. Overstaffing costs 500 dollars per week per extra health care worker, and understaffing costs 600 dollars per week for each per diem health care worker.)  
+
+## Example 1: Forecasts for March 18 - April 22, 2008  
+
+Here we examine how the tool would have performed forecasting the past six weeks, a period in early spring with low levels of disease.  
+
+```{r, echo=FALSE, warning=FALSE}
+
+# Most recent six weeks as test set
+train1 <- ts[1:930,]
+test1 <- ts[931:936,]
+
+# Model
+model1 <- auto.arima(train1[,"total_cases"], xreg = train1[,"reanalysis_dew_point_temp_k"])
+dewpt.model <- snaive(ts[,"reanalysis_dew_point_temp_k"])
+
+# Function analogous to forecast package (adjusted for this time period)
+DengueFC1 <- function(h){
+  
+  Week <- paste("Week", 1:h)
+  ptval <- forecast::forecast(dewpt.model, h=h)[["mean"]] 
+  
+  Lo95 <- round(forecast::forecast(model1, xreg = rep(ptval))$lower[,2])
+  Lo95[Lo95<0] <- 0
+  StaffLo <-  dplyr::case_when(
+    Lo95 == 0 ~ as.numeric(1),
+    Lo95%%9 == 0 ~ as.numeric(Lo95/9),
+    Lo95%%9 != 0 ~ as.numeric(Lo95%/%9 + 1)
+  )
+  
+  Forecast <- round(forecast::forecast(model1, xreg = rep(ptval))[["mean"]])
+  Forecast[Forecast<0] <- 0
+  StaffRec <-  dplyr::case_when(
+    Forecast == 0 ~ as.numeric(1),
+    Forecast%%9 == 0 ~ as.numeric(Forecast/9),
+    Forecast%%9 != 0 ~ as.numeric(Forecast%/%9 + 1)
+  )
+  
+  Hi95 <- round(forecast::forecast(model1, xreg = rep(ptval))$upper[,2])
+  Hi95[Hi95<0] <- 0
+  StaffHi <-  dplyr::case_when(
+    Hi95 == 0 ~ as.numeric(1),
+    Hi95%%9 == 0 ~ as.numeric(Hi95/9),
+    Hi95%%9 != 0 ~ as.numeric(Hi95%/%9 + 1)
+  )
+  
+  data.frame(Week,Lo95,Forecast,Hi95,StaffLo,StaffRec,StaffHi)
+}
+
+# Set up all variables for use in tables in report
+PredictedCases <- DengueFC1(6)[,3]
+ActualCases <- test1[,"total_cases"]
+RecommendedStaff <- DengueFC1(6)[,6]
+RequiredStaff <- case_when(
+  ActualCases == 0 ~ as.numeric(1),
+  ActualCases%%9 == 0 ~ as.numeric(ActualCases/9),
+  ActualCases%%9 != 0 ~ as.numeric(ActualCases%/%9 + 1)
+)
+
+CurrentStaff <- test1[,"currentstaff"]
+CurrentError <- CurrentStaff - RequiredStaff
+CostCurrentError <- case_when(
+  CurrentError<0 ~ as.numeric(abs(CurrentError*600)),
+  CurrentError>0 ~ as.numeric(CurrentError*500),
+  CurrentError==0 ~ as.numeric(0)
+)
+
+RecError <- RecommendedStaff - RequiredStaff
+CostRecError <- case_when(
+  RecError<0 ~ as.numeric(abs(RecError*600)),
+  RecError>0 ~ as.numeric(RecError*500),
+  RecError==0 ~ as.numeric(0)
+)
+
+```
+
+The table below shows, for each week, the actual number of dengue cases, the number of staff that were required to meet the 1:9 ratio, the number of staff hired for the week based on the current staffing model, the difference between the number required and the number hired, and the cost of that difference. 
+
+The error in the current staffing model cost the Departamento de Salud 500 dollars in the past six weeks.
+
+```{r, echo=FALSE}
+WeekOf <- dengue$week_start_date[931:936]
+kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
+
+```
+
+The table below shows, for each week, the actual number of dengue cases, the number of staff that were required to meet the 1:9 ratio, the number of staff that would have been recommended by the forecasting tool, the difference between the number required and the number recommended, and the cost of that difference.
+
+Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of 500 dollars over the current staffing model.
+
+```{r, echo=FALSE}
+
+kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
+```
+
+## Example 2: Forecasts for August 27 - October 1, 2007
+
+Here we examine how the tool would have performed forecasting a six-week period in early fall 2007, a period with rapidly rising levels of disease.  
+
+```{r, echo=FALSE}
+
+# Forecast six weeks beginning 2007-08-20
+train2 <- ts[1:901,]
+test2 <- ts[902:907,]
+
+# Model (dewpt.model is unchanged)
+model2 <- auto.arima(train2[,"total_cases"], xreg = train2[,"reanalysis_dew_point_temp_k"])
+
+# Function analogous to forecast package (adjusted for this time period)
+DengueFC2 <- function(h){
+  
+  Week <- paste("Week", 1:h)
+  ptval <- forecast::forecast(dewpt.model, h=h)[["mean"]] 
+  
+  Lo95 <- round(forecast::forecast(model2, xreg = rep(ptval))$lower[,2])
+  Lo95[Lo95<0] <- 0
+  StaffLo <-  dplyr::case_when(
+    Lo95 == 0 ~ as.numeric(1),
+    Lo95%%9 == 0 ~ as.numeric(Lo95/9),
+    Lo95%%9 != 0 ~ as.numeric(Lo95%/%9 + 1)
+  )
+  
+  Forecast <- round(forecast::forecast(model2, xreg = rep(ptval))[["mean"]])
+  Forecast[Forecast<0] <- 0
+  StaffRec <-  dplyr::case_when(
+    Forecast == 0 ~ as.numeric(1),
+    Forecast%%9 == 0 ~ as.numeric(Forecast/9),
+    Forecast%%9 != 0 ~ as.numeric(Forecast%/%9 + 1)
+  )
+  
+  Hi95 <- round(forecast::forecast(model2, xreg = rep(ptval))$upper[,2])
+  Hi95[Hi95<0] <- 0
+  StaffHi <-  dplyr::case_when(
+    Hi95 == 0 ~ as.numeric(1),
+    Hi95%%9 == 0 ~ as.numeric(Hi95/9),
+    Hi95%%9 != 0 ~ as.numeric(Hi95%/%9 + 1)
+  )
+  
+  data.frame(Week,Lo95,Forecast,Hi95,StaffLo,StaffRec,StaffHi)
+}
+
+# Set up all variables for use in tables in report
+PredictedCases <- DengueFC2(6)[,3]
+ActualCases <- test2[,"total_cases"]
+RecommendedStaff <- DengueFC2(6)[,6]
+RequiredStaff <- case_when(
+  ActualCases == 0 ~ as.numeric(1),
+  ActualCases%%9 == 0 ~ as.numeric(ActualCases/9),
+  ActualCases%%9 != 0 ~ as.numeric(ActualCases%/%9 + 1)
+)
+
+CurrentStaff <- test2[,"currentstaff"]
+CurrentError <- CurrentStaff - RequiredStaff
+CostCurrentError <- case_when(
+  CurrentError<0 ~ as.numeric(abs(CurrentError*600)),
+  CurrentError>0 ~ as.numeric(CurrentError*500),
+  CurrentError==0 ~ as.numeric(0)
+)
+
+RecError <- RecommendedStaff - RequiredStaff
+CostRecError <- case_when(
+  RecError<0 ~ as.numeric(abs(RecError*600)),
+  RecError>0 ~ as.numeric(RecError*500),
+  RecError==0 ~ as.numeric(0)
+)
+
+```
+
+As you can see in the table below, the current staffing model greatly underestimated the number of health care workers that were required by the actual number of cases of dengue disease during this time period. The cost to the Departamento de Salud in making up the staffing shortage with per diem health care workers was very high, 27,000 dollars over six weeks.  
+
+```{r, echo=FALSE}
+WeekOf <- dengue$week_start_date[902:907]
+kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
+```
+
+The table below shows that the forecasting tool also (mostly) underestimates the number of health care workers that were required by the actual number of cases of dengue disease during this time period, but not nearly as significantly as the current staffing model did. The total cost to the Departamento de Salud of the difference between the staffing levels suggested by the forecasting tool and the actual required number of staff was 13,700 dollars over six weeks.
+
+Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of 13,300 dollars over the current staffing model.
+
+```{r, echo=FALSE}
+
+kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
+```
+
+## Example 3: Forecasts for November 5 - December 10, 2007
+
+The quite severe dengue season of 2007 peaked in early October and then fell steadily through the late fall and winter to typical low levels by the spring of 2008. 
+
+Here we examine how the tool would have performed forecasting a six-week period in late fall 2007, when disease levels were falling.  
+
+```{r, echo=FALSE}
+
+# Forecast six weeks beginning 2007-11-05
+train3 <- ts[1:911,]
+test3 <- ts[912:917,]
+
+# Model (dewpt.model is unchanged)
+model3 <- auto.arima(train3[,"total_cases"], xreg = train3[,"reanalysis_dew_point_temp_k"])
+
+# Function analogous to forecast package (adjusted for this time period)
+DengueFC3 <- function(h){
+  
+  Week <- paste("Week", 1:h)
+  ptval <- forecast::forecast(dewpt.model, h=h)[["mean"]] 
+  
+  Lo95 <- round(forecast::forecast(model3, xreg = rep(ptval))$lower[,2])
+  Lo95[Lo95<0] <- 0
+  StaffLo <-  dplyr::case_when(
+    Lo95 == 0 ~ as.numeric(1),
+    Lo95%%9 == 0 ~ as.numeric(Lo95/9),
+    Lo95%%9 != 0 ~ as.numeric(Lo95%/%9 + 1)
+  )
+  
+  Forecast <- round(forecast::forecast(model3, xreg = rep(ptval))[["mean"]])
+  Forecast[Forecast<0] <- 0
+  StaffRec <-  dplyr::case_when(
+    Forecast == 0 ~ as.numeric(1),
+    Forecast%%9 == 0 ~ as.numeric(Forecast/9),
+    Forecast%%9 != 0 ~ as.numeric(Forecast%/%9 + 1)
+  )
+  
+  Hi95 <- round(forecast::forecast(model3, xreg = rep(ptval))$upper[,2])
+  Hi95[Hi95<0] <- 0
+  StaffHi <-  dplyr::case_when(
+    Hi95 == 0 ~ as.numeric(1),
+    Hi95%%9 == 0 ~ as.numeric(Hi95/9),
+    Hi95%%9 != 0 ~ as.numeric(Hi95%/%9 + 1)
+  )
+  
+  data.frame(Week,Lo95,Forecast,Hi95,StaffLo,StaffRec,StaffHi)
+}
+
+# Set up all variables for use in tables in report
+PredictedCases <- DengueFC3(6)[,3]
+ActualCases <- test3[,"total_cases"]
+RecommendedStaff <- DengueFC3(6)[,6]
+RequiredStaff <- case_when(
+  ActualCases == 0 ~ as.numeric(1),
+  ActualCases%%9 == 0 ~ as.numeric(ActualCases/9),
+  ActualCases%%9 != 0 ~ as.numeric(ActualCases%/%9 + 1)
+)
+
+CurrentStaff <- test3[,"currentstaff"]
+CurrentError <- CurrentStaff - RequiredStaff
+CostCurrentError <- case_when(
+  CurrentError<0 ~ as.numeric(abs(CurrentError*600)),
+  CurrentError>0 ~ as.numeric(CurrentError*500),
+  CurrentError==0 ~ as.numeric(0)
+)
+
+RecError <- RecommendedStaff - RequiredStaff
+CostRecError <- case_when(
+  RecError<0 ~ as.numeric(abs(RecError*600)),
+  RecError>0 ~ as.numeric(RecError*500),
+  RecError==0 ~ as.numeric(0)
+)
+
+```
+
+The table below shows the current staffing model's performance during this six-week period, with a total cost from over- and underestimating staffing needs of 5,600 dollars.
+
+```{r, echo=FALSE}
+WeekOf <- dengue$week_start_date[912:917]
+kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
+```
+
+The table below shows the forecasting tool's performance during the same six-week period, with a total cost from over- and underestimating staffing needs of 3,600 dollars.
+
+Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of 2,000 dollars over the current staffing model.
+
+```{r, echo=FALSE}
+
+kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
+```
+
+## Summary of Examples
+
+In each of the three examples, the forecasting tool performed better than the current staffing model, saving signficant resources (500 - 13,300 dollars over six weeks) that the Departamento de Salud could have directed to other public health projects, including education, vector management, and research.
+
+As discussed above, no forecasting tool can be perfect, the results are less and less precise the further out you forecast, and there are no guarantees that this tool's forecasts will be accurate enough to offer cost savings over the current staffing model during any particular time period. 
+
+However, the forecasting tool is able to offer predictions of weekly cases of dengue for relatively short time horizons (1-6 weeks) that are, on average, good enough to substantially improve the staffing efficiency of the San Juan clinic. 
+
+## NEXT STEPS
+
+The current version of the forecasting tool is a beta model. It does not include a mechanism for updating the data regarding weekly weather and number of cases; therefore, it is not useful in the future, but "frozen in time." The next step in the development of the tool is to build a process for updating the weekly data that feeds the model.
+
+
