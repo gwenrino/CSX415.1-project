@@ -1,0 +1,108 @@
+---
+title: "Prediction of Dengue Fever"
+subtitle: "Client: Departamento de Salud de Puerto Rico"
+author: "Gwen Rino"
+date: "5/25/2018"
+output: pdf_document
+---
+ 
+```{r load_packages, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)
+library(knitr)
+```
+ 
+## Overview  
+  
+The goal of this project is to increase efficiency in staffing the public health clinic in San Juan, Puerto Rico for the treatment of dengue disease.  
+
+Dengue is a mosquito-borne virus that causes both dengue fever and the more severe dengue hemorrhagic fever (DHF). According to a study in [The Lancet Infectious Diseases](https://www.thelancet.com/journals/laninf/article/PIIS1473-3099%2816%2900146-8/fulltext), the annual global cost of dengue disease is nearly $9 billion in hospitalization, ambulatory treatment, and lost wages. The global cost of the disease, and the human suffering that cost represents, can be mitigated by the smart and efficient use of local public health resources.  
+  
+Our approach will be to use U.S. National Oceanic and Atmospheric Administration (NOAA) weather data to create a model that forecasts the number of weekly cases of dengue disease so that necessary staffing levels can be anticipated. This will reduce incidences of overstaffing while also meeting minimum staff-to-patient ratios without overdependence on costly per diem nurses.   
+  
+*Note that this is an imagined problem for the purposes of the assignment, and while I have grounded the project in factual information about dengue virus, details about the hiring practices and needs of the Puerto Rican Department of Health are completely fabricated.*  
+
+## Background: Optimizing Local Public Health Resources  
+  
+The Departamento de Salud de Puerto Rico (health department of Puerto Rico) must operate within budgetary limits, allocating resources to have the biggest possible positive impact on public health. Dengue management costs include vector control (mosquito abatement), vaccine research, public education, and direct patient care. Among these, the need for direct patient care is the most variable because the local incidence of disease varies significantly from week to week, from no diagnoses at all to several hundred cases per week during periods of outbreak.   
+  
+The accepted minimum ratio of care givers to dengue patients is 1:9. Dengue disease is more prevalent in summer and fall than in winter and spring. The current staffing plan, instituted after the deadly dengue season of 2005, places 1 dengue specialist at the San Juan clinic in the spring, increases that number to 5 health care workers during the summer and fall, and reduces the number to 2 during the winter. The health department hires per diem nurses during outbreaks in order to meet the minimum required ratio.  
+
+The current plan helps control costs during years with outbreaks of disease, but leaves the clinic substantially overstaffed during quiet years, which is expensive. For example:
+
+```{r, echo=FALSE}
+table <- tibble(
+  Year = c("2006, quiet year", "2007, outbreak year"),
+  Overstaffed.wks = c("35", "6"),
+  Overstaffing.cost = c("$32,500", "$3,500"),
+  Understaffed.wks = c("2", "17"),
+  Understaffing.cost = c("$1,200", "$10,200"),
+  Total.extra.cost = c("$33,700", "$13,700")
+)
+kable(table, caption = "Staffing Costs from Over- and Understaffing, 2006-2007")
+```
+
+
+A model that predicts the number of weekly cases of dengue disease with adequate accuracy would allow public health administrators to optimize the allocation of resources for staffing, deploying health care workers when and where they are needed.    
+  
+It is worth noting that as global climate change shifts the range and incidence of dengue and other mosquito-borne diseases, public health resources will be increasingly stretched. Any model that helps makes decisions about the efficient and effective allocation of public health resources will be increasingly essential in the coming years and decades.  
+
+## Key Roles
+  
+Model creation and deployment:  
+-	Gwen Rino 
+  
+Model users:  
+-	Departamento de Salud de Puerto Rico administration team  
+  
+Subject matter experts:  
+-	Departamento de Salud de Puerto Rico dengue team  
+-	Center for Disease Control, Dengue Branch  
+-	U.S. National Oceanic and Atmospheric Administration  
+  
+Other stakeholders:  
+-	Local health care workers  
+-	Local dengue patients  
+
+## Success Metrics
+  
+**Project success definition:**  
+
+This project will be a success if with 6-week forecasting the Departamento de Salud is able to staff the San Juan clinic more efficiently (i.e. with lower rates of over- or understaffing) than under the current staffing model 80% of the time.
+  
+**Required model performance:**  
+  
+Our initial goal for model performance is an Mean Absolute Error (MAE) <= 9.0 for a 6-week forecast horizon. This level of performance is our estimate of what is required to achieve project success.
+
+## Risk Estimates
+  
+**If the project success metric is not met:**  
+
+There is an efficiency cost to the health department each time the clinic is over- or understaffed. The cost of overstaffing by one person is the weekly wage of a health care worker who wasn't needed ($500/week). The cost of understaffing by one person is the weekly wage of a per diem nurse ($600/week).
+
+**If the model requirements are not met:**
+
+If the model performance metric (MAE <= 9.0) is not met, then the model cannot predict the number of weekly dengue cases with adequate accuracy to confidently plan clinic staffing levels. The project goals will need to be revisited and revised.  
+
+## Model Deployment
+
+The model will be deployed as a tool that outputs forecasted weekly cases of dengue disease and the coinciding recommended number of clinic staff to engage (that is, the number of staff required to meet the acceptable staff-to-patient ratios for the forecasted number of patients). 
+
+The user may select the forecast horizon, with the understanding that near-term forecasts are much more dependable than longer-term forecasts. Our model will be designed to meet performance objectives for up to a 6-week forecast horizon.
+  
+This model deployment requires a new system for making staffing decisions. Health department administrators, who will be the users of the model, will need training in how to use the new system. Health care workers may be resistant to the new system if it requires them to be more flexible about their weekly work assignments than they are accustomed to.  
+  
+## Timeline
+
+This project is undertaken in the context of the UC Extension course CompSciX415.1, which runs through May 30, 2018. An estimated timeline follows:
+
+**Phase One**  
+This Formal Problem Statement addresses the inception and formalization phases of the project. All parties shall be in agreement about the details of the Formal Problem Statement *by April 18.*
+
+**Phase Two**  
+The next phase is Model Development. We expect to have preliminary results of the model *by May 2* and to have determined whether the model meets the performance requirements by *May 16.*
+
+**Phase Three**  
+A beta version of the forecasting tool will be ready for deployment *by May 30.* This version will function based on the static data on which the model was built.
+
+**Phase Four**  
+The next phase in the development of the tool is to build a maintenance process for updating the weekly data (weather and number of cases) that feeds the model so that the forecasting tool will be useful in an ongoing way.
