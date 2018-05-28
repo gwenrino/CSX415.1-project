@@ -67,7 +67,7 @@ It should be emphasized that the forecasting tool gives much more dependable res
 
 In order to understand the potential impact of the forecasting tool, it is helpful to compare what has actually happened in the past with what would have happened had the forecasting tool been in use at that time.
 
-(As a reminder, the current staffing model for the San Juan clinic calls for 1 dengue specialist in the spring, increases that number to 5 during the summer and fall when disease is more prevalent, and reduces the number to 2 during the winter. The clinic fills in with per diem nurses as needed in order to meet the minimum required ratio, 1:9, of caregivers to patients. Overstaffing costs 500 dollars per week per extra health care worker, and understaffing costs 600 dollars per week for each per diem health care worker.)  
+(As a reminder, the current staffing model for the San Juan clinic calls for 1 dengue specialist in the spring, increases that number to 5 during the summer and fall when disease is more prevalent, and reduces the number to 2 during the winter. The clinic fills in with per diem nurses as needed in order to meet the minimum required ratio, 1:9, of caregivers to patients. Overstaffing costs $500 per week per extra health care worker, and understaffing costs $600 per week for each per diem health care worker.)  
 
 ## Example 1: Forecasts for March 18 - April 22, 2008  
 
@@ -145,7 +145,7 @@ CostRecError <- case_when(
 
 The table below shows, for each week, the actual number of dengue cases, the number of staff that were required to meet the 1:9 ratio, the number of staff hired for the week based on the current staffing model, the difference between the number required and the number hired, and the cost of that difference. 
 
-The error in the current staffing model cost the Departamento de Salud 500 dollars in the past six weeks.
+The error in the current staffing model cost the Departamento de Salud $500 in the past six weeks.
 
 ```{r, echo=FALSE}
 WeekOf <- dengue$week_start_date[931:936]
@@ -155,7 +155,7 @@ kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,Cost
 
 The table below shows, for each week, the actual number of dengue cases, the number of staff that were required to meet the 1:9 ratio, the number of staff that would have been recommended by the forecasting tool, the difference between the number required and the number recommended, and the cost of that difference.
 
-Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of 500 dollars over the current staffing model.
+Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of $500 over the current staffing model.
 
 ```{r, echo=FALSE}
 
@@ -235,16 +235,16 @@ CostRecError <- case_when(
 
 ```
 
-As you can see in the table below, the current staffing model greatly underestimated the number of health care workers that were required by the actual number of cases of dengue disease during this time period. The cost to the Departamento de Salud in making up the staffing shortage with per diem health care workers was very high, 27,000 dollars over six weeks.  
+As you can see in the table below, the current staffing model greatly underestimated the number of health care workers that were required by the actual number of cases of dengue disease during this time period. The cost to the Departamento de Salud in making up the staffing shortage with per diem health care workers was very high, $27,000 over six weeks.  
 
 ```{r, echo=FALSE}
 WeekOf <- dengue$week_start_date[902:907]
 kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
 ```
 
-The table below shows that the forecasting tool also (mostly) underestimates the number of health care workers that were required by the actual number of cases of dengue disease during this time period, but not nearly as significantly as the current staffing model did. The total cost to the Departamento de Salud of the difference between the staffing levels suggested by the forecasting tool and the actual required number of staff was 13,700 dollars over six weeks.
+The table below shows that the forecasting tool also (mostly) underestimates the number of health care workers that were required by the actual number of cases of dengue disease during this time period, but not nearly as significantly as the current staffing model did. The total cost to the Departamento de Salud of the difference between the staffing levels suggested by the forecasting tool and the actual required number of staff was $13,700 over six weeks.
 
-Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of 13,300 dollars over the current staffing model.
+Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of $13,300 over the current staffing model.
 
 ```{r, echo=FALSE}
 
@@ -326,16 +326,16 @@ CostRecError <- case_when(
 
 ```
 
-The table below shows the current staffing model's performance during this six-week period, with a total cost from over- and underestimating staffing needs of 5,600 dollars.
+The table below shows the current staffing model's performance during this six-week period, with a total cost from over- and underestimating staffing needs of $5,600.
 
 ```{r, echo=FALSE}
 WeekOf <- dengue$week_start_date[912:917]
 kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
 ```
 
-The table below shows the forecasting tool's performance during the same six-week period, with a total cost from over- and underestimating staffing needs of 3,600 dollars.
+The table below shows the forecasting tool's performance during the same six-week period, with a total cost from over- and underestimating staffing needs of $3,600.
 
-Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of 2,000 dollars over the current staffing model.
+Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of $2,000 over the current staffing model.
 
 ```{r, echo=FALSE}
 
@@ -344,7 +344,7 @@ kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,Cost
 
 ## Summary of Examples
 
-In each of the three examples, the forecasting tool performed better than the current staffing model, saving signficant resources (500 - 13,300 dollars over six weeks) that the Departamento de Salud could have directed to other public health projects, including education, vector management, and research.
+In each of the three examples, the forecasting tool performed better than the current staffing model, saving signficant resources ($500 - $13,300 over six weeks) that the Departamento de Salud could have directed to other public health projects, including education, vector management, and research.
 
 As discussed above, no forecasting tool can be perfect, the results are less and less precise the further out you forecast, and there are no guarantees that this tool's forecasts will be accurate enough to offer cost savings over the current staffing model during any particular time period. 
 

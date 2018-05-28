@@ -1,5 +1,6 @@
 library('ProjectTemplate')
 load.project()
+require(vars)
 
 
 # Plot time series
