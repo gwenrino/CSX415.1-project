@@ -1,6 +1,3 @@
-library('ProjectTemplate')
-load.project()
-
 ## Linear model using features with significant p-values in Pearson tests
 ## (excluding engineered feature year.season)
 

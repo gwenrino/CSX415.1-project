@@ -1,6 +1,3 @@
-library('ProjectTemplate')
-load.project()
-
 ##################################
 ### Exploration of time series ###
 ##################################
@@ -32,7 +29,6 @@ adf.test(ts.selected[ ,"reanalysis_specific_humidity_g_per_kg"])
 # ACF plot
 ggAcf(ts.selected[ ,"total_cases"]) 
 ggsave(file.path('graphs/EDAviz', 'ACF.pdf'))
-
 # Highly autocorrelated to at least lag 16, seasonality at 52?
 
 # Quick test for seasonality

@@ -1,7 +1,8 @@
-library('ProjectTemplate')
-load.project()
-require(vars)
+###################################
+### VECTOR AUTOREGRESSION MODEL ###
+###################################
 
+require(vars)
 
 # Plot time series
 plot.ts(ts.selected)

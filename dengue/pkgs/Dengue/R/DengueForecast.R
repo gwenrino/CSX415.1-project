@@ -16,9 +16,11 @@
 
 DengueFC <- function(h){
   
-  Week <- paste("Week", 1:h)
-  ptval <- forecast::forecast(dewpt.model, h=h)[["mean"]] 
-  
+  Week <- paste("Week", 1:h) # values for first column of output
+  ptval <- forecast::forecast(dewpt.model, h=h)[["mean"]] # forecasts to be used as xreg term
+
+  # extract 95% confidence low numbers from forecast object
+  # process these numbers as forecasted low number of required staff  
   Lo95 <- round(forecast::forecast(dengue.model, xreg = rep(ptval))$lower[,2])
   Lo95[Lo95<0] <- 0
   StaffLo <-  dplyr::case_when(
@@ -27,6 +29,8 @@ DengueFC <- function(h){
     Lo95%%9 != 0 ~ as.numeric(Lo95%/%9 + 1)
   )
   
+  # extract mean numbers from forecast object
+  # process these numbers as forecasted number of required staff
   Forecast <- round(forecast::forecast(dengue.model, xreg = rep(ptval))[["mean"]])
   Forecast[Forecast<0] <- 0
   StaffRec <-  dplyr::case_when(
@@ -35,6 +39,8 @@ DengueFC <- function(h){
     Forecast%%9 != 0 ~ as.numeric(Forecast%/%9 + 1)
   )
   
+  # extract 95% confidence high numbers from forecast object
+  # process these numbers as forecasted high number of required staff
   Hi95 <- round(forecast::forecast(dengue.model, xreg = rep(ptval))$upper[,2])
   Hi95[Hi95<0] <- 0
   StaffHi <-  dplyr::case_when(

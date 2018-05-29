@@ -1,4 +1,8 @@
-### Exploratory Data Analysis: histogram of response variable
+#######################################
+### EXPLORATORY DATA VISUALIZATIONS ###
+#######################################
+
+## Histogram of response variable
 
 g <- ggplot(dengue)
 
@@ -6,7 +10,7 @@ g + geom_histogram(aes(x=total_cases), bins = 50) +
   labs(title = "Frequency of Incidence of Dengue", x = "Number of Cases", y = "Frequency")
 ggsave(file.path('graphs/EDAviz', 'total_cases.hist.pdf'))
 
-### Exploratory Data Analysis: bivariate graphs
+## Bivariate graphs
 
 # These plots suggest these variables may have some 
 # positive linear relationship with total_cases (not strong)
@@ -77,7 +81,7 @@ dengue %>% group_by(weekofyear) %>% summarize(mean = mean(total_cases)) %>%
        x = "Week of Year", y = "Average Number of Cases")
 ggsave(file.path('graphs/EDAviz', 'weekofyear.pdf'))
 
-### Time series plots
+## Time series plots
 
 plot(dengue.ts.target, 
      main = "Dengue Disease",

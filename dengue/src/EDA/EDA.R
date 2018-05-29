@@ -1,5 +1,6 @@
-library('ProjectTemplate')
-load.project()
+###############################
+## EXPLORATORY DATA ANALYSIS ##
+###############################
 
 # Summary of all variables
 summary(dengue)

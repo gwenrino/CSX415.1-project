@@ -1,6 +1,3 @@
-library('ProjectTemplate')
-load.project()
-
 ########################################################
 ### Identify most important variables by two methods ###
 ########################################################

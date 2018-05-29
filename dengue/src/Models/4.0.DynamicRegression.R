@@ -1,6 +1,3 @@
-library('ProjectTemplate')
-load.project()
-
 ####################################################
 ### Dynamic regression with exogenous regressor  ###
 ### 6 week horizon                               ###
@@ -267,7 +264,9 @@ returnedValues <- ro(x,h=26,origins=500,ourCall,ourValue)
 mean(abs(returnedValues$actuals - returnedValues$pred),na.rm = TRUE)
 # MAE of 500 rolling origin cross validation = 18.0
 
-### For both 6 week and 26 week horizons, Model 4 seems to be the best
+##########################################################################
+### For both 6 week and 26 week horizons, Model 4 seems to be the best ###
+##########################################################################
 
 model <- auto.arima(ts.selected[,"total_cases"], 
                     xreg = ts.selected[,"reanalysis_dew_point_temp_k"])
