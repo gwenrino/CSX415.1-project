@@ -41,7 +41,7 @@ On behalf of the Departamento de Salud de Puerto Rico, we are able to offer a to
 
 ## USING THE FORECASTING TOOL  
 
-For instructions on installing and using the tool, please see ().  
+For instructions on installing and using the tool, please see ~CSX415.1-project/deploy/README.md.  
 
 ## HOW THE FORECASTING TOOL WORKS  
 
@@ -49,7 +49,7 @@ The forecasting tool is based on a predictive model that makes use of two types 
 
 The first type of information in the model is about weather, which is makes sense given the fact that dengue is a mosquito-borne virus. Indeed, the Departamento de Salud's current staffing model, which adjusts staffing levels according to the season of the year, is based on the well-understood seasonal relationship between weather patterns, mosquito populations, and disease. Our mathematical model refines and focuses this insight.  
 
-The second type of information is recent number of cases of dengue disease. This is also intuitive; you would not expect to see a precipitous increase or decrease in number of cases from one week to the next most of the time; today's incidence of disease is related to tomorrow's. Our mathematical model takes advantage of this strong predictive pattern (a phenomenon called autocorrelation).  
+The second type of information is recent number of cases of dengue disease. This is also intuitive; you would not expect to see a precipitous increase or decrease in number of cases from one week to the next most of the time; today's incidence of disease is related to yesterday's and to tomorrow's. Our mathematical model takes advantage of this strong predictive pattern (a phenomenon called autocorrelation).  
 
 A plot of the number of weekly dengue cases over time suggests both of these relationships. There is a clear annual cycle with disease levels rising in the summer and fall, and falling in the winter and spring, which suggests the correlation between weather and disease. Furthermore, the number of cases doesn't oscillate and generally doesn't jump wildly from one observation to the next; it rises for a time and then falls for a time, suggesting that the recent past is strongly correlated with the near future.  
 
@@ -155,7 +155,7 @@ kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,Cost
 
 The table below shows, for each week, the actual number of dengue cases, the number of staff that were required to meet the 1:9 ratio, the number of staff that would have been recommended by the forecasting tool, the difference between the number required and the number recommended, and the cost of that difference.
 
-Had it been in use during this time period, the forecasting tool would have provided the Departamento de Salud a savings of $500 over the current staffing model.
+Had it been in use during this six-week time period, the forecasting tool would have provided the Departamento de Salud a savings of $500 over the current staffing model.
 
 ```{r, echo=FALSE}
 
