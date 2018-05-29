@@ -23,7 +23,7 @@ load.project()
 
 # Recreate final time series with season for use in this report
 withseason <- dengue.med[c("total_cases", "reanalysis_dew_point_temp_k", "season")]
-withseason$currentstaff <- case_when(
+withseason$currentstaff <- dplyr::case_when(
   withseason$season == "spring" ~ as.numeric(1),
   withseason$season == "summer" ~ as.numeric(5),
   withseason$season == "fall" ~ as.numeric(5),
@@ -149,7 +149,7 @@ The error in the current staffing model cost the Departamento de Salud $500 in t
 
 ```{r, echo=FALSE}
 WeekOf <- dengue$week_start_date[931:936]
-kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
+knitr::kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
 
 ```
 
@@ -159,7 +159,7 @@ Had it been in use during this six-week time period, the forecasting tool would 
 
 ```{r, echo=FALSE}
 
-kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
+knitr::kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
 ```
 
 ## Example 2: Forecasts for August 27 - October 1, 2007
@@ -239,7 +239,7 @@ As you can see in the table below, the current staffing model greatly underestim
 
 ```{r, echo=FALSE}
 WeekOf <- dengue$week_start_date[902:907]
-kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
+knitr::kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
 ```
 
 The table below shows that the forecasting tool also (mostly) underestimates the number of health care workers that were required by the actual number of cases of dengue disease during this time period, but not nearly as significantly as the current staffing model did. The total cost to the Departamento de Salud of the difference between the staffing levels suggested by the forecasting tool and the actual required number of staff was $13,700 over six weeks.
@@ -248,7 +248,7 @@ Had it been in use during this time period, the forecasting tool would have prov
 
 ```{r, echo=FALSE}
 
-kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
+knitr::kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
 ```
 
 ## Example 3: Forecasts for November 5 - December 10, 2007
@@ -330,7 +330,7 @@ The table below shows the current staffing model's performance during this six-w
 
 ```{r, echo=FALSE}
 WeekOf <- dengue$week_start_date[912:917]
-kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
+knitr::kable(data.frame(WeekOf,ActualCases,RequiredStaff,CurrentStaff,CurrentError,CostCurrentError))
 ```
 
 The table below shows the forecasting tool's performance during the same six-week period, with a total cost from over- and underestimating staffing needs of $3,600.
@@ -339,7 +339,7 @@ Had it been in use during this time period, the forecasting tool would have prov
 
 ```{r, echo=FALSE}
 
-kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
+knitr::kable(data.frame(WeekOf,ActualCases,RequiredStaff,RecommendedStaff,RecError,CostRecError))
 ```
 
 ## Summary of Examples
