@@ -9,7 +9,6 @@ How to install the forecasting tool
 You can install the forecasting tool directly from Github using the following R code:
 
 ``` r
-# Not run
 install.packages("devtools") # if needed
 library(devtools)
 devtools::install_github("gwenrino/CSX415.1-project/tree/master/dengue/pkgs/Dengue")
@@ -57,8 +56,6 @@ Download the `csx415-project.tar.gz` file from `gwenrino/CSX415.1-project/tree/m
 Load packrat in the R console.
 
 ``` r
-# Not run
-
 # Install and load packrat
 install.packages("packrat") # if needed
 library(packrat)
@@ -68,6 +65,5 @@ library(packrat)
 Call `packrat::unbundle()`. The first argument is the object to be unbundled, and the second argument is where the unbundled project should reside (in this case, in the current directory).
 
 ``` r
-# Not run
 packrat::unbundle(bundle = "csx415-project.tar.gz", where = ".")
 ```
