@@ -11,7 +11,7 @@ You can install the forecasting tool directly from Github using the following R 
 ``` r
 install.packages("devtools") # if needed
 library(devtools)
-devtools::install_github("gwenrino/CSX415.1-project/tree/master/dengue/pkgs/Dengue")
+devtools::install_github("gwenrino/CSX415.1-project/dengue/pkgs/Dengue")
 library(Dengue)
 ```
 
@@ -50,7 +50,7 @@ If you are interested in rebuilding this project from the source code, you can d
 In RStudio, create a new project and put it in a new directory called `Unbundle_Dengue`.
 
 **Step 2**  
-Download the `csx415-project.tar.gz` file from `gwenrino/CSX415.1-project/tree/master/deploy` in GitHub to your new `Unbundle_Dengue` directory.
+Download the `csx415-project.tar.gz` file from `gwenrino/CSX415.1-project/packrat/bundles` in GitHub to your new `Unbundle_Dengue` directory.
 
 **Step 3**  
 Load packrat in the R console.
