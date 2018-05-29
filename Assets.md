@@ -61,7 +61,7 @@ Each of these reports describes one model and evaluates it according to its Mean
 * Path:  
 ~CSX415.1-project/dengue/pkgs/Dengue  
 * Description:  
-This package contains the function DengueFC(), a forecasting tool which can be used to forecast weekly cases of dengue disease in San Juan, Puerto Rico, as well as to recommend the number of staff to be employed at the health clinic to meet the needs of the forecasted number of patients.  
+This package contains the function DengueFC(), a forecasting tool which can be used to forecast weekly cases of dengue disease in San Juan, Puerto Rico, as well as to recommend the number of clinic staff required to meet the needs of the forecasted number of patients.  
 
 **ABOUT THE MODEL**  
 * Path:  
