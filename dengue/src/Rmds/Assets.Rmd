@@ -37,7 +37,7 @@ output:
 
 **EDA VISUALIZATION**
 * Path: ~CSX415.1-project/dengue/src/EDA/EDA.viz.R  
-* Description: This R script includes a histogram of the response variable, scatterplots of the relationships between the predictor and response variables, and basic time series plots.  
+* Description: This R script includes code to make a histogram of the response variable, scatterplots of the relationships between the predictor and response variables, and basic time series plots. The most instructive of these plots, along with several plots generated in other R scripts, can be found in the directory ~CSX415.1-project/dengue/graphs/EDAviz/
 
 **FEATURE SELECTION**
 * Path: ~CSX415.1-project/dengue/src/FeatureSelection/FeatureSelection.R  
@@ -62,13 +62,13 @@ output:
          ~CSX415.1-project/dengue/reports/ModelEvaluations/5.VAREval.pdf  
 * Description: Each of these reports describes one model and evaluates it according to its Mean Absolute Error (MAE).  
 
-**PACKAGE FOR DEPLOYMENT OF MODEL**
+**PACKAGE**
 * Path: ~CSX415.1-project/dengue/pkgs/Dengue
-* Description: This package contains the function DengueFC(), which can be used to forecast weekly cases of dengue disease in San Juan, Puerto Rico, as well as to recommend the number of staff to be employed at the health clinic.
+* Description: This package contains the function DengueFC(), a forecasting tool which can be used to forecast weekly cases of dengue disease in San Juan, Puerto Rico, as well as to recommend the number of staff to be employed at the health clinic to meet the needs of the forecasted number of patients.
 
 **ABOUT THE MODEL**
 * Path: ~CSX415.1-project/dengue/reports/AboutModel.pdf
-* Description: This report explains in general terms how the forecasting tool works, and interprets the potential impact of the tool by way of three examples of the cost savings that would have been incurred had the tool been in use at that time.
+* Description: This report explains in general terms how the forecasting tool works, and interprets the potential impact of the tool by way of examples of the cost savings that would have been incurred had the tool been in use during three 6-week periods in the past.
 
 
 

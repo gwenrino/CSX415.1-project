@@ -1,6 +1,3 @@
-library('ProjectTemplate')
-load.project()
-
 ### Exploratory Data Analysis: histogram of response variable
 
 g <- ggplot(dengue)
@@ -86,11 +83,9 @@ plot(dengue.ts.target,
      main = "Dengue Disease",
      xlab = "Time",
      ylab = "Number of Cases")
-ggsave(file.path('graphs/EDAviz', 'time.series.pdf'))
 
 plot(dengue.ts.target.diff,
      main = "Dengue Disease \n First Difference",
      xlab = "Time",
      ylab = "Weekly Difference in Number of Cases")
-ggsave(file.path('graphs/EDAviz', 'first.diff.pdf'))
 
