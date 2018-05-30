@@ -9,7 +9,7 @@ The goal of this project is to use data science methods to increase efficiency i
 **PROJECT DEPLOYMENT**
 ----------------------
 
-For information on how to install and use various components of the project, including the R package that contains the forecasting tool, please see `CSX415.1-project/deploy/README.md`.
+For information on how to install and use various components of the project, including the R package that contains the forecasting tool, please see [CSX415.1-project/deploy/README.md](https://github.com/gwenrino/CSX415.1-project/tree/master/deploy).
 
 **PROJECT ORGANIZATION**
 ------------------------
