@@ -4,7 +4,7 @@
 **OVERVIEW**
 ------------
 
-The goal of this project is to use data science methods to increase efficiency in staffing an imaginary public health clinic in San Juan, Puerto Rico. The approach is to forecast the number of dengue patients will treat each week using time series methods and U.S. National Oceanic and Atmospheric Administration (NOAA) weather data, and then to recommend staffing the clinic with the number of health care workers required to care for the forecasted number of patients.
+The goal of this project is to use data science methods to increase efficiency in staffing an imaginary public health clinic in San Juan, Puerto Rico. The approach is to forecast the number of dengue patients the clinic will treat each week using time series methods and U.S. National Oceanic and Atmospheric Administration (NOAA) weather data, and then to recommend staffing the clinic with the number of health care workers required to care for the forecasted number of patients.
 
 **PROJECT DEPLOYMENT**
 ----------------------
