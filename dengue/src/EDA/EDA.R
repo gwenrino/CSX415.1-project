@@ -34,7 +34,6 @@ cor.test(dengue$ndvi_sw, dengue$total_cases, method="pearson")
 # Autocorrelation
 acf(dengue.ts.target, plot = FALSE)
 acf(dengue.ts.target)
-ggsave(file.path('graphs/EDAviz', 'autocorrelation.pdf'))
 # Each observation positively associated with its recent past, for at least 16 weeks.
 
 # Autocorrelation of diff
