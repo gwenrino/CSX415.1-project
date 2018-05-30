@@ -13,7 +13,7 @@ For more information about the context and goals of the project, please see the 
 
 For information on how to install and use various components of the project, including the R package that contains the forecasting tool, please see [CSX415.1-project/deploy/README.md](https://github.com/gwenrino/CSX415.1-project/tree/master/deploy).
 
-For an analysis of the potential impact of the project, please see 
+For an analysis of the potential impact of the project, please see [About the Dengue Forecasting Tool](https://github.com/gwenrino/CSX415.1-project/blob/master/dengue/reports/AboutModel.pdf).
 
 **PROJECT ORGANIZATION**
 ------------------------
