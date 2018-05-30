@@ -18,106 +18,91 @@ Project assets, including data, code, and reports, are described in the file `CS
 
 This project uses the [Project Template](http://projecttemplate.net/) management system. All project assets are stored according to the ProjectTemplate folder structure.
 
-    ##                                          levelName
-    ## 1   project                                       
-    ## 2    ¦--Assets.md                                 
-    ## 3    ¦--CSX415.1-project.Rproj                    
-    ## 4    ¦--dengue                                    
-    ## 5    ¦   ¦--cache                                 
-    ## 6    ¦   ¦   ¦--dengue.features.train.hash        
-    ## 7    ¦   ¦   ¦--dengue.features.train.RData       
-    ## 8    ¦   ¦   ¦--dengue.hash                       
-    ## 9    ¦   ¦   ¦--dengue.labels.train.hash          
-    ## 10   ¦   ¦   ¦--dengue.labels.train.RData         
-    ## 11   ¦   ¦   ¦--dengue.RData                      
-    ## 12   ¦   ¦   ¦--hotel.guests.copy.hash            
-    ## 13   ¦   ¦   ¦--hotel.guests.copy.RData           
-    ## 14   ¦   ¦   °--README.md                         
-    ## 15   ¦   ¦--config                                
-    ## 16   ¦   ¦   ¦--global.dcf                        
-    ## 17   ¦   ¦   °--README.md                         
-    ## 18   ¦   ¦--data                                  
-    ## 19   ¦   ¦   ¦--dengue_features_train.csv         
-    ## 20   ¦   ¦   ¦--dengue_labels_train.csv           
-    ## 21   ¦   ¦   ¦--hotel_guests_copy.csv             
-    ## 22   ¦   ¦   °--README.md                         
-    ## 23   ¦   ¦--graphs                                
-    ## 24   ¦   ¦   ¦--EDAviz                            
-    ## 25   ¦   ¦   ¦   ¦--ACF.pdf                       
-    ## 26   ¦   ¦   ¦   ¦--timeseries.pdf                
-    ## 27   ¦   ¦   ¦   ¦--total_cases.hist.pdf          
-    ## 28   ¦   ¦   ¦   °--weekofyear.pdf                
-    ## 29   ¦   ¦   °--README.md                         
-    ## 30   ¦   ¦--munge                                 
-    ## 31   ¦   ¦   ¦--01-A.R                            
-    ## 32   ¦   ¦   °--README.md                         
-    ## 33   ¦   ¦--pkgs                                  
-    ## 34   ¦   ¦   °--Dengue                            
-    ## 35   ¦   ¦       ¦--data                          
-    ## 36   ¦   ¦       ¦   ¦--dengue.model.rda          
-    ## 37   ¦   ¦       ¦   °--dewpt.model.rda           
-    ## 38   ¦   ¦       ¦--Dengue.Rproj                  
-    ## 39   ¦   ¦       ¦--DESCRIPTION                   
-    ## 40   ¦   ¦       ¦--man                           
-    ## 41   ¦   ¦       ¦   °--DengueFC.Rd               
-    ## 42   ¦   ¦       ¦--NAMESPACE                     
-    ## 43   ¦   ¦       ¦--R                             
-    ## 44   ¦   ¦       ¦   °--DengueForecast.R          
-    ## 45   ¦   ¦       °--tests                         
-    ## 46   ¦   ¦           ¦--testthat.R                
-    ## 47   ¦   ¦           °--testthat                  
-    ## 48   ¦   ¦               °--test.DengueFC.R       
-    ## 49   ¦   ¦--README.md                             
-    ## 50   ¦   ¦--reports                               
-    ## 51   ¦   ¦   ¦--AboutModel.pdf                    
-    ## 52   ¦   ¦   ¦--FormalProblemStatement.pdf        
-    ## 53   ¦   ¦   ¦--ModelEvaluations                  
-    ## 54   ¦   ¦   ¦   ¦--0.NaiveEval.pdf               
-    ## 55   ¦   ¦   ¦   ¦--1.LinearEval.pdf              
-    ## 56   ¦   ¦   ¦   ¦--2.TreeEval.pdf                
-    ## 57   ¦   ¦   ¦   ¦--3.ArimaEval.pdf               
-    ## 58   ¦   ¦   ¦   ¦--4.DynRegEval.pdf              
-    ## 59   ¦   ¦   ¦   °--5.VAREval.pdf                 
-    ## 60   ¦   ¦   °--README.md                         
-    ## 61   ¦   °--src                                   
-    ## 62   ¦       ¦--Deploy                            
-    ## 63   ¦       ¦   °--myfunction.R                  
-    ## 64   ¦       ¦--EDA                               
-    ## 65   ¦       ¦   ¦--EDA.R                         
-    ## 66   ¦       ¦   °--EDA.viz.R                     
-    ## 67   ¦       ¦--FeatureSelection                  
-    ## 68   ¦       ¦   °--FeatureSelection.R            
-    ## 69   ¦       ¦--Models                            
-    ## 70   ¦       ¦   ¦--0.Naive.R                     
-    ## 71   ¦       ¦   ¦--1.Linear.R                    
-    ## 72   ¦       ¦   ¦--2.Tree.R                      
-    ## 73   ¦       ¦   ¦--3.Arima.R                     
-    ## 74   ¦       ¦   ¦--4.0.DynamicRegression.R       
-    ## 75   ¦       ¦   ¦--4.1.DynRegValidation.R        
-    ## 76   ¦       ¦   °--5.VAR.R                       
-    ## 77   ¦       ¦--README.md                         
-    ## 78   ¦       °--Rmds                              
-    ## 79   ¦           ¦--AboutModel.Rmd                
-    ## 80   ¦           ¦--Assets.Rmd                    
-    ## 81   ¦           ¦--Deploy.Rmd                    
-    ## 82   ¦           ¦--FormalProblemStatement.Rmd    
-    ## 83   ¦           ¦--ModelEvaluations              
-    ## 84   ¦           ¦   ¦--0.NaiveEval.Rmd           
-    ## 85   ¦           ¦   ¦--1.LinearEval.Rmd          
-    ## 86   ¦           ¦   ¦--2.TreeEval.Rmd            
-    ## 87   ¦           ¦   ¦--3.ArimaEval.Rmd           
-    ## 88   ¦           ¦   ¦--4.DynRegEval.Rmd          
-    ## 89   ¦           ¦   °--5.VAREval.Rmd             
-    ## 90   ¦           ¦--Root.md                       
-    ## 91   ¦           °--Root.Rmd                      
-    ## 92   ¦--deploy                                    
-    ## 93   ¦   °--README.md                             
-    ## 94   ¦--GRADE.md                                  
-    ## 95   ¦--packrat                                   
-    ## 96   ¦   ¦--bundles                               
-    ## 97   ¦   ¦   °--CSX415.1-project-2018-05-29.tar.gz
-    ## 98   ¦   ¦--init.R                                
-    ## 99   ¦   ¦--lib-R                                 
-    ## 100  ¦   ¦   °--... 1 nodes w/ 1608 sub           
-    ## 101  ¦   °--... 4 nodes w/ 24217 sub              
-    ## 102  °--... 1 nodes w/ 24221 sub
+    ##                                 levelName
+    ## 1  project                               
+    ## 2   ¦--cache                             
+    ## 3   ¦   ¦--dengue.features.train.hash    
+    ## 4   ¦   ¦--dengue.features.train.RData   
+    ## 5   ¦   ¦--dengue.hash                   
+    ## 6   ¦   ¦--dengue.labels.train.hash      
+    ## 7   ¦   ¦--dengue.labels.train.RData     
+    ## 8   ¦   ¦--dengue.RData                  
+    ## 9   ¦   ¦--hotel.guests.copy.hash        
+    ## 10  ¦   ¦--hotel.guests.copy.RData       
+    ## 11  ¦   °--README.md                     
+    ## 12  ¦--config                            
+    ## 13  ¦   ¦--global.dcf                    
+    ## 14  ¦   °--README.md                     
+    ## 15  ¦--data                              
+    ## 16  ¦   ¦--dengue_features_train.csv     
+    ## 17  ¦   ¦--dengue_labels_train.csv       
+    ## 18  ¦   ¦--hotel_guests_copy.csv         
+    ## 19  ¦   °--README.md                     
+    ## 20  ¦--graphs                            
+    ## 21  ¦   ¦--EDAviz                        
+    ## 22  ¦   ¦   ¦--ACF.pdf                   
+    ## 23  ¦   ¦   ¦--timeseries.pdf            
+    ## 24  ¦   ¦   ¦--total_cases.hist.pdf      
+    ## 25  ¦   ¦   °--weekofyear.pdf            
+    ## 26  ¦   °--README.md                     
+    ## 27  ¦--munge                             
+    ## 28  ¦   ¦--01-A.R                        
+    ## 29  ¦   °--README.md                     
+    ## 30  ¦--pkgs                              
+    ## 31  ¦   °--Dengue                        
+    ## 32  ¦       ¦--data                      
+    ## 33  ¦       ¦   ¦--dengue.model.rda      
+    ## 34  ¦       ¦   °--dewpt.model.rda       
+    ## 35  ¦       ¦--Dengue.Rproj              
+    ## 36  ¦       ¦--DESCRIPTION               
+    ## 37  ¦       ¦--man                       
+    ## 38  ¦       ¦   °--DengueFC.Rd           
+    ## 39  ¦       ¦--NAMESPACE                 
+    ## 40  ¦       ¦--R                         
+    ## 41  ¦       ¦   °--DengueForecast.R      
+    ## 42  ¦       °--tests                     
+    ## 43  ¦           ¦--testthat.R            
+    ## 44  ¦           °--testthat              
+    ## 45  ¦               °--test.DengueFC.R   
+    ## 46  ¦--README.md                         
+    ## 47  ¦--reports                           
+    ## 48  ¦   ¦--AboutModel.pdf                
+    ## 49  ¦   ¦--FormalProblemStatement.pdf    
+    ## 50  ¦   ¦--ModelEvaluations              
+    ## 51  ¦   ¦   ¦--0.NaiveEval.pdf           
+    ## 52  ¦   ¦   ¦--1.LinearEval.pdf          
+    ## 53  ¦   ¦   ¦--2.TreeEval.pdf            
+    ## 54  ¦   ¦   ¦--3.ArimaEval.pdf           
+    ## 55  ¦   ¦   ¦--4.DynRegEval.pdf          
+    ## 56  ¦   ¦   °--5.VAREval.pdf             
+    ## 57  ¦   °--README.md                     
+    ## 58  °--src                               
+    ## 59      ¦--Deploy                        
+    ## 60      ¦   °--myfunction.R              
+    ## 61      ¦--EDA                           
+    ## 62      ¦   ¦--EDA.R                     
+    ## 63      ¦   °--EDA.viz.R                 
+    ## 64      ¦--FeatureSelection              
+    ## 65      ¦   °--FeatureSelection.R        
+    ## 66      ¦--Models                        
+    ## 67      ¦   ¦--0.Naive.R                 
+    ## 68      ¦   ¦--1.Linear.R                
+    ## 69      ¦   ¦--2.Tree.R                  
+    ## 70      ¦   ¦--3.Arima.R                 
+    ## 71      ¦   ¦--4.0.DynamicRegression.R   
+    ## 72      ¦   ¦--4.1.DynRegValidation.R    
+    ## 73      ¦   °--5.VAR.R                   
+    ## 74      ¦--README.md                     
+    ## 75      °--Rmds                          
+    ## 76          ¦--AboutModel.Rmd            
+    ## 77          ¦--Assets.Rmd                
+    ## 78          ¦--Deploy.Rmd                
+    ## 79          ¦--FormalProblemStatement.Rmd
+    ## 80          ¦--ModelEvaluations          
+    ## 81          ¦   ¦--0.NaiveEval.Rmd       
+    ## 82          ¦   ¦--1.LinearEval.Rmd      
+    ## 83          ¦   ¦--2.TreeEval.Rmd        
+    ## 84          ¦   ¦--3.ArimaEval.Rmd       
+    ## 85          ¦   ¦--4.DynRegEval.Rmd      
+    ## 86          ¦   °--5.VAREval.Rmd         
+    ## 87          °--Root.Rmd

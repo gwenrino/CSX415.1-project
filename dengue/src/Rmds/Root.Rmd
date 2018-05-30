@@ -38,7 +38,7 @@ library(tidyverse)
 ```{r, echo=FALSE}
 
 # Get directory tree for current directory
-dir_path <- "../../.." 
+dir_path <- "../.." 
 
 # Grab all files in the tree (recursively)
 files <- tibble(filename = list.files(path = dir_path, 
