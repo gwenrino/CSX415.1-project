@@ -6,14 +6,14 @@
 
 The goal of this project is to use data science methods to increase efficiency in staffing an imaginary public health clinic in San Juan, Puerto Rico. The approach is to forecast the number of dengue patients the clinic will treat each week using time series methods and U.S. National Oceanic and Atmospheric Administration (NOAA) weather data, and then to recommend staffing the clinic with the number of health care workers required to care for the forecasted number of patients.
 
-For more information about the context and goals of the project, please see the [Formal Problem Statement](https://github.com/gwenrino/CSX415.1-project/blob/master/dengue/reports/FormalProblemStatement.pdf).
+For more information about the context and goals of the project, please see the [Formal Problem Statement](https://github.com/gwenrino/CSX415.1-project/blob/master/dengue/reports/FormalProblemStatement.pdf) in the `reports` directory.
 
 **PROJECT DEPLOYMENT**
 ----------------------
 
 For information on how to install and use various components of the project, including the R package that contains the forecasting tool, please see [CSX415.1-project/deploy/README.md](https://github.com/gwenrino/CSX415.1-project/tree/master/deploy).
 
-For an analysis of the potential impact of the project, please see [About the Dengue Forecasting Tool](https://github.com/gwenrino/CSX415.1-project/blob/master/dengue/reports/AboutModel.pdf).
+For an analysis of the potential impact of the project, please see [About the Dengue Forecasting Tool](https://github.com/gwenrino/CSX415.1-project/blob/master/dengue/reports/AboutModel.pdf) in the `reports` directory.
 
 **PROJECT ORGANIZATION**
 ------------------------
