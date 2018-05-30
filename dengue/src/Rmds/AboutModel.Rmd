@@ -61,7 +61,7 @@ autoplot(ts[,"total_cases"], ylab = "Number of Weekly Dengue Cases")
 
 The forecasting tool forecasts the number of cases of dengue disease for a time horizon of the user's choice, and returns both a forecast of the number of cases for each future week and also the number of staff that would be needed to meet the required 1:9 staffing level for the forecasted number of cases.  
 
-It should be emphasized that the forecasting tool gives much more dependable results for near-future predictions than long-term ones; the uncertainty rises dramatically for longer time horizons. The average error (positive or negative) in predicted number of dengue cases looking ahead one week is just 1.06; looking ahead six weeks the error rises to 7.98; looking ahead six months the error is 18.03. (For more information about the accuracy of the model at different time horizons, please see the document 4.DynRegEval.pdf, which can be found at dengue/reports/ModelEvaluations/4.DynRegEval.pdf)
+It should be emphasized that the forecasting tool gives much more dependable results for near-future predictions than long-term ones; the uncertainty rises for longer time horizons. (For more information about the accuracy of the model at different time horizons, please see the document 4.DynRegEval.pdf, which can be found at dengue/reports/ModelEvaluations/4.DynRegEval.pdf)
 
 ## THE IMPACT OF THE FORECASTING TOOL  
 
