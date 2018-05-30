@@ -1,0 +1,48 @@
+---
+title: "Root"
+author: "Gwen Rino"
+date: "5/29/2018"
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## CSX415.1 Final Project: Prediction of Dengue Fever  
+
+#**OVERVIEW**  
+
+The goal of this project is to use data science methods to increase efficiency in staffing an imaginary public health clinic in San Juan, Puerto Rico. The approach is to forecast the number of dengue patients will treat each week using time series methods and U.S. National Oceanic and Atmospheric Administration (NOAA) weather data, and then to recommend staffing the clinic with the number of health care workers required to care for the forecasted number of patients.  
+
+#**PROJECT DEPLOYMENT**  
+
+For information on how to install and use various components of the project, including the R package that contains the forecasting tool, please see `CSX415.1-project/deploy/README.md`.
+
+#**PROJECT ORGANIZATION**   
+
+Project assets, including data, code, and reports, are described in the file `CSX415.1-project/Assets.md`.
+
+This project uses the [Project Template](http://projecttemplate.net/) management system. All project assets are stored according to the ProjectTemplate folder structure. The directory structure is visualized here:  
+
+```{r, echo = FALSE}
+library(data.tree)
+library(tidyverse)
+
+# Get directory tree for current directory
+dir_path <- "../../.." 
+
+# Grab all files in the tree (recursively)
+files <- tibble(filename = list.files(path = dir_path, 
+                                      recursive = T, 
+                                      include.dirs = FALSE)) %>%
+  mutate(filename = paste0("project/", filename))
+
+## Create directory tree
+dir_tree <- as.Node(files, pathName = "filename")
+
+## Print out directory tree
+print(dir_tree)
+```
