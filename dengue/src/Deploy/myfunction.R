@@ -47,5 +47,7 @@ myfunction <- function(h){
   print(data.frame(Week,ForecastLo,StaffLo,ForecastMid,StaffMid,ForecastHi,StaffHi))
 }
 
+myfunction(6)
+
 
 
