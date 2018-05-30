@@ -58,7 +58,7 @@ CSX415.1-project is a `packrat` project, so RStudio should automatically enter p
 **Step 4**  
 Within CSX415.1-project, the project assets (data, code, and reports) are stored in the `dengue` directory, which is managed in the `ProjectTemplate` system. In order to take advantage of this project management system, do the following:  
 
-Change your working directory to ~/CSX415.1-project/dengue, either by using the `setwd()` command or by selecting the directory through the RStudio menu Session/Set Working Directory/Choose Directory.  
+Change your working directory to ~/dengue, either by using the `setwd()` command or by selecting the directory through the RStudio menu Session/Set Working Directory/Choose Directory.  
 
 Install (if necessary) and load the `ProjectTemplate` package. Then use the command `load.project()` to automatically load the environment with all the elements of the project.   
 
