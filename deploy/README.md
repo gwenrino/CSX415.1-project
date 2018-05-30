@@ -44,26 +44,28 @@ Dengue::DengueFC(5)
 How to access the source code
 =============================
 
-If you are interested in rebuilding this project from the source code, you can download it to your computer using the `packrat::unbundle()` function.
+If you are interested in rebuilding this project from the source code, you can clone the repository as a new local project in RStudio.
 
 **Step 1**  
-In RStudio, create a new project and put it in a new directory called `Unbundle_Dengue`.
+Copy the URL of the project's GitHub repository, https://github.com/gwenrino/CSX415.1-project.
 
 **Step 2**  
-Download the `csx415-project.tar.gz` file from `gwenrino/CSX415.1-project/packrat/bundles` in GitHub to your new `Unbundle_Dengue` directory.
+In RStudio, select File/New Project/Version Control. In the window that pops up (Clone Git Repository), paste the GitHub repository URL that you copied in Step 1. Name the project and choose the directory as you like.
 
 **Step 3**  
-Load packrat in the R console.
-
-``` r
-# Install and load packrat
-install.packages("packrat") # if needed
-library(packrat)
-```
+CSX415.1-project is a `packrat` project, so RStudio should automatically enter packrat mode as the new project opens. This means that all packages and dependencies for the project are loaded into the project's packrat library.
 
 **Step 4**  
-Call `packrat::unbundle()`. The first argument is the object to be unbundled, and the second argument is where the unbundled project should reside (in this case, in the current directory).
+Within CSX415.1-project, the project assets (data, code, and reports) are stored in the `dengue` directory, which is managed in the `ProjectTemplate` system. In order to take advantage of this project management system, do the following:  
+
+Change your working directory to ~/CSX415.1-project/dengue, either by using the `setwd()` command or by selecting the directory through the RStudio menu Session/Set Working Directory/Choose Directory.  
+
+Install (if necessary) and load the `ProjectTemplate` package. Then use the command `load.project()` to automatically load the environment with all the elements of the project.   
 
 ``` r
-packrat::unbundle(bundle = "csx415-project.tar.gz", where = ".")
+install.packages("ProjectTemplate") # if necessary
+library(ProjectTemplate)
+load.project()
 ```
+
+All the source files (.R and .Rmd) are located under the `src` folder. Please check out the ASSETS.md file to learn more about each of the source files and what they contain!
