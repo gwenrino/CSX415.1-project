@@ -1,22 +1,7 @@
 **CSX415.1 Final Project: Prediction of Dengue Fever**
 ====================================================
 
-**OVERVIEW**
-------------
-
-The goal of this project is to use data science methods to increase efficiency in staffing an imaginary public health clinic in San Juan, Puerto Rico. The approach is to forecast the number of dengue patients will treat each week using time series methods and U.S. National Oceanic and Atmospheric Administration (NOAA) weather data, and then to recommend staffing the clinic with the number of health care workers required to care for the forecasted number of patients.
-
-**PROJECT DEPLOYMENT**
-----------------------
-
-For information on how to install and use various components of the project, including the R package that contains the forecasting tool, please see [CSX415.1-project/deploy/README.md](https://github.com/gwenrino/CSX415.1-project/tree/master/deploy).
-
-**PROJECT ORGANIZATION**
-------------------------
-
-Project assets, including data, code, and reports, are described in the file `CSX415.1-project/Assets.md`.
-
-This project uses the [Project Template](http://projecttemplate.net/) management system. All project assets are stored according to the ProjectTemplate folder structure. The directory structure of the `dengue` folder is visualized here:
+This directory includes all project assets, organized according to the ProjectTemplate folder structure. The directory structure  is visualized here:
 
     ##                                 levelName
     ## 1  project                               
