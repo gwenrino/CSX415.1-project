@@ -16,7 +16,7 @@ For information on how to install and use various components of the project, inc
 
 Project assets, including data, code, and reports, are described in the file `CSX415.1-project/Assets.md`.
 
-This project uses the [Project Template](http://projecttemplate.net/) management system. All project assets are stored according to the ProjectTemplate folder structure. The directory structure is visualized here:
+This project uses the [Project Template](http://projecttemplate.net/) management system. All project assets are stored according to the ProjectTemplate folder structure. The directory structure of the `dengue` folder is visualized here:
 
     ##                                 levelName
     ## 1  project                               
