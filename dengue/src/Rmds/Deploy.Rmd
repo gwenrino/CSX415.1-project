@@ -27,7 +27,7 @@ You can install the forecasting tool directly from Github using the following R 
 ```{r, eval=FALSE}
 install.packages("devtools") # if needed
 library(devtools)
-devtools::install_github("gwenrino/CSX415.1-project/tree/master/dengue/pkgs/Dengue")
+devtools::install_github("gwenrino/CSX415.1-project/dengue/pkgs/Dengue")
 library(Dengue)
 ```
 
